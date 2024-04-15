@@ -5,6 +5,7 @@ import { BsFillCheckCircleFill, BsPencil,
   BsTrash3Fill, BsPlusCircleFill } from "react-icons/bs";
 
 export default function UserTable() {
+  const [error, setError] = useState(null);
   const [users, setUsers] = useState<User[]>([]);
   const [user, setUser] = useState<User>({
     _id: "", username: "", password: "", firstName: "", lastName: "", email: "", role: "", dob: new Date() });
@@ -15,7 +16,7 @@ export default function UserTable() {
       setUsers([newUser, ...users]);
     } catch (err: any) {
       console.log(err);
-      alert(err.response.data)
+      setError(error);
     }
   };
 
@@ -24,6 +25,7 @@ export default function UserTable() {
       await client.deleteUser(user);
       setUsers(users.filter((u) => u._id !== user._id));
     } catch (err) {
+      setError(error);
       console.log(err);
     }
   };
@@ -33,6 +35,7 @@ export default function UserTable() {
       const u = await client.findUserById(user._id);
       setUser(u);
     } catch (err) {
+      setError(error);
       console.log(err);
     }
   };
@@ -47,9 +50,9 @@ export default function UserTable() {
         (u._id === user._id ? user : u)));
     } catch (err: any) {
       if (err.response && err.response.data.message) {
-        alert(err.response.data.message);
+        setError(err.response.data.message);
       } else {
-      alert(err.message)
+        setError(err.message);
       }
       console.log(err);
     }
@@ -81,6 +84,7 @@ export default function UserTable() {
       </select>
 
       <h1>User Table</h1>
+      {error && <div className="alert alert-danger my-1">{error}</div>}
       <table className="table">
         <thead>
           <tr>

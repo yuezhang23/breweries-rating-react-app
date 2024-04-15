@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import { ProjectState } from "../store";
 
 function Nav() {
-  const links = ["Home", "Signin", "Profile", "Signup"]
+  
   const { pathname } = useLocation();
 
   const currentUser = useSelector((state: ProjectState) => state.userReducer.currentUser);
