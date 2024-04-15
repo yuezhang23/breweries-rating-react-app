@@ -1,9 +1,8 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import Project from './Project';
 import {HashRouter} from "react-router-dom";
-import {Routes, Route, Navigate} from "react-router";
+import {Routes, Route} from "react-router";
 
 function App() {
    return (

@@ -28,8 +28,6 @@ export default function Profile() {
   const dispatch = useDispatch();
 
   const [isAdmin, setIsAdmin] = useState(false);
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
   const onChangeDate = (e: any) => {
     const inputDate = new Date(e.target.value);
@@ -37,13 +35,17 @@ export default function Profile() {
     setProfile({ ...profile, dob: formattedDate });
   };
 
+  const adminAuth = (profile: any) => {
+    if (profile.role === "ADMIN") {
+      setIsAdmin(true);
+    }
+  }
+
   const fetchProfile = async () => {
     try {
       const account = await client.profile();
+      adminAuth(account)
       setProfile(account);
-      if (profile.role === "ADMIN") {
-        setIsAdmin(true);
-      }
     } catch (err) {
       navigate("/User/Signin");
     }
@@ -51,7 +53,7 @@ export default function Profile() {
 
   useEffect(() => {
     fetchProfile();
-  }, [fetchProfile]);
+  }, []);
 
   const save = async () => {
     await client.updateUser(profile);
