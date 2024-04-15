@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import * as client from "./client";
 import axios from "axios";
-axios.defaults.withCredentials = true;
 import { User } from "./client";
 import { BsFillCheckCircleFill, BsPencil,
   BsTrash3Fill, BsPlusCircleFill } from "react-icons/bs";
+axios.defaults.withCredentials = true;
 
 export default function UserTable() {
   const [error, setError] = useState(null);

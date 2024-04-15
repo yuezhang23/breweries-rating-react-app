@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as client from "./client";
-import axios from "axios";
-axios.defaults.withCredentials = true;
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "./reducer";
+import axios from "axios";
+axios.defaults.withCredentials = true;
 
 export default function Signin() {
   const [credentials, setCredentials] = useState<any>({ username: "", password: ""});
