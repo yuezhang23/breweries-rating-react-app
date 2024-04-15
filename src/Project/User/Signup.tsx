@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as client from "./client";
+import axios from "axios";
+axios.defaults.withCredentials = true;
 
 export default function Signup() {
   const [error, setError] = useState("");

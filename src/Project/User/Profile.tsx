@@ -1,4 +1,6 @@
 import * as client from "./client";
+import axios from "axios";
+axios.defaults.withCredentials = true;
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { useDispatch } from "react-redux";

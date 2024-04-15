@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import * as client from "./client";
+import axios from "axios";
+axios.defaults.withCredentials = true;
 import { User } from "./client";
 import { BsFillCheckCircleFill, BsPencil,
   BsTrash3Fill, BsPlusCircleFill } from "react-icons/bs";
