@@ -8,9 +8,13 @@ function Logging({ children } : {children: any}) {
   const dispatch = useDispatch();
 
   const fetchUser = async() => {
-    const user = await client.profile();
-    dispatch(setCurrentUser(user));
-    setLoading(false);
+    try {
+      setLoading(false);
+      const user = await client.profile();
+      dispatch(setCurrentUser(user));
+    } catch (error: any) {
+      console.log(error.response.data)
+    }
   }
 
   useEffect(() => {

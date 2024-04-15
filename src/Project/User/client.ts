@@ -13,7 +13,6 @@ export const createUser = async (user: any) => {
 };
 
 export const signin = async (credentials: User) => {
-  console.log('USERS_API:', USERS_API);
   const response = await axios.post( `${USERS_API}/signin`, credentials );
   return response.data;
 };

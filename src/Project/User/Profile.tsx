@@ -28,6 +28,7 @@ export default function Profile() {
   const dispatch = useDispatch();
 
   const [isAdmin, setIsAdmin] = useState(false);
+  const [error, setError] = useState("");
 
   const onChangeDate = (e: any) => {
     const inputDate = new Date(e.target.value);
@@ -55,8 +56,12 @@ export default function Profile() {
     fetchProfile();
   }, []);
 
-  const save = async () => {
-    await client.updateUser(profile);
+  const updateUser = async () => {
+    try {
+      const status = await client.updateUser(profile);
+    } catch (err: any) {
+      setError(err.response.data.message)
+    }
   };
 
   const signout = async () => {
@@ -76,6 +81,7 @@ export default function Profile() {
 
       {profile && (
         <div>
+          {error && <div className="alert alert-danger my-1">{error}</div>}
           <input value={profile.username} className="form-control mb-2" onChange={(e) =>
             setProfile({ ...profile, username: e.target.value })} required/>
           <input value={profile.password} type="password" className="form-control mb-2" onChange={(e) =>
@@ -87,7 +93,7 @@ export default function Profile() {
           <input value={formatDate(profile.dob)} type="date" className="form-control mb-2" onChange={onChangeDate}/>
           <input value={profile.email} className="form-control mb-2" onChange={(e) =>
             setProfile({ ...profile, email: e.target.value })} required/>
-          <button onClick={save} className="btn btn-primary form-control mb-2">
+          <button onClick={updateUser} className="btn btn-primary form-control mb-2">
             Save
           </button>
           <button onClick={signout} className="btn btn-danger form-control">
