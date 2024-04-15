@@ -2,24 +2,29 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { User } from "./client";
 import * as client from "./client";
+import { useDispatch } from "react-redux";
+import { setCurrentUser } from "./reducer";
 
 export default function Signin() {
   const [credentials, setCredentials] = useState<any>({ username: "", password: ""});
-
   const navigate = useNavigate();
+  const [error, setError] = useState(null);
+  const dispatch = useDispatch();
   
   const signin = async () => {
     try {
-      await client.signin(credentials);
+      const currentUser = await client.signin(credentials);
+      dispatch(setCurrentUser(currentUser));
       navigate("/User/Profile");
     } catch (err: any) {
-      alert(err.response.data)
+      setError(error);
     }
   };
   
   return (
-    <div>
-      <h1>Signin</h1>
+    <div className="container-fluid mt-5">
+      <h1>Sign In</h1>
+      {error && <div className="alert alert-danger my-1">Incorrect username or password</div>}
       <input value={credentials.username} className="form-control mb-2" onChange={(e) =>
         setCredentials({ ...credentials, username: e.target.value })}/>
       <input value={credentials.password} className="form-control mb-2" type="password"

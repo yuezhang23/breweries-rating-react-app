@@ -19,12 +19,7 @@ export default function Signup() {
   };
 
   return (
-    <div className="container-fluid">
-      <input value={user.username} className="form-control mb-2" onChange={(e) => setUser({
-          ...user, username: e.target.value })} />
-      <input value={user.password} className="form-control mb-2" onChange={(e) => setUser({
-          ...user, password: e.target.value })} />
-      <button className="btn btn-primary form-control" onClick={signup}> Signup </button>
+    <div className="container-fluid mt-5">
       <h1>Sign Up</h1>
       {error && <div className="alert alert-danger my-1">{error}</div>}
       {success && <div className="alert alert-success my-1">{success}</div>}

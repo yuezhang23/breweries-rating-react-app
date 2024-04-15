@@ -6,12 +6,12 @@ function Nav() {
   const links = ["Home", "Signin", "Profile", "Signup"]
   const { pathname } = useLocation();
 
-  const { currentUser } = useSelector((state: ProjectState) => state.userReducer.currentUser);
+  const currentUser = useSelector((state: ProjectState) => state.userReducer.currentUser);
 
   return (
     <div className="navbar navbar-expand-lg fixed-top navbar-light bg-light">
       <div className="container-fluid">
-        <Link className="navbar-brand" to={"/Home"}><img src={`/images/three.jpg`}/></Link>
+        <Link className="navbar-brand" to={"/Home"}><img src={`/images/three.jpg`} style={{ width: '50px', height: 'auto' }}/></Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerTarget" aria-controls="navbarTogglerTarget" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
         </button>
@@ -50,10 +50,7 @@ function Nav() {
 
               {currentUser && (
                 <>
-                 <li className="navbar-text" key={4}>
-                  Welcome {currentUser.firstname}
-                 </li>
-                  <li className="nav-item" key={5}>
+                  <li className="nav-item" key={4}>
                     <Link className={`nav-link ${pathname.includes("Profile") && "active fw-bold"}`} to={"/User/Profile"}>
                         Profile
                     </Link>
@@ -66,6 +63,11 @@ function Nav() {
                 </>
                 )}
             </ul>
+            {currentUser &&
+              <span className="navbar-text ">
+                Welcome {currentUser.firstName}
+              </span> 
+            }
         </div>
       </div>
     </div >

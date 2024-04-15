@@ -3,7 +3,6 @@ import { ProjectState } from "../store";
 
 function Search() {
 
-  const { currentUser } = useSelector((state: ProjectState) => state.userReducer.currentUser);
   
   return (
     <div className="container-fluid">

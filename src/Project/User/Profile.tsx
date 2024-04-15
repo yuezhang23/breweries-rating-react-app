@@ -66,7 +66,7 @@ export default function Profile() {
   };
 
   return (
-    <div>
+    <div className="container-fluid mt-5">
       <h1>Profile</h1>
       {isAdmin && 
         <>
