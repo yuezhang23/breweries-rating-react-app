@@ -6,7 +6,7 @@ function Nav() {
   
   const { pathname } = useLocation();
 
-  const currentUser = useSelector((state: ProjectState) => state.userReducer.currentUser);
+  const { currentUser } = useSelector((state: ProjectState) => state.userReducer);
 
   return (
     <div className="navbar navbar-expand-lg fixed-top navbar-light bg-light">
