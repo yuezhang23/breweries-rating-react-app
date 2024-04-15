@@ -16,14 +16,14 @@ export default function Signin() {
       dispatch(setCurrentUser(currentUser));
       navigate("/User/Profile");
     } catch (err: any) {
-      setError(error);
+      setError(err.response.data);
     }
   };
   
   return (
     <div className="container-fluid mt-5">
       <h1>Sign In</h1>
-      {error && <div className="alert alert-danger my-1">Incorrect username or password</div>}
+      {error && <div className="alert alert-danger my-1">{error}</div>}
       <input value={credentials.username} className="form-control mb-2" onChange={(e) =>
         setCredentials({ ...credentials, username: e.target.value })}/>
       <input value={credentials.password} className="form-control mb-2" type="password"

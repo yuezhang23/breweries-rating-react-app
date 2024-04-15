@@ -33,7 +33,6 @@ function Project() {
                       <Route path="User/OrderHistory" element={<OrderHistory />} />
                       <Route path="User/Admin/Users" element={<UserTable />} />
                       <Route path="User/Admin/Orders" element={<AllOrder />} />         
-
                   </Routes>
               </div>
           </div>

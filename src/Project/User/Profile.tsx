@@ -69,14 +69,9 @@ export default function Profile() {
     <div className="container-fluid mt-5">
       <h1>Profile</h1>
       {isAdmin && 
-        <>
-          <Link to="/User/Account/Admin/Users" className="btn btn-warning w-100 mb-2">
-            Users
-          </Link>
-          <Link to="/User/Account/Admin/Orders" className="btn btn-warning w-100 mb-2">
-            All Orders
-          </Link>
-        </>
+        <Link to="/User/Admin/Users" className="btn btn-warning w-100 mb-2">
+          Users
+        </Link>
       }
 
       {profile && (
