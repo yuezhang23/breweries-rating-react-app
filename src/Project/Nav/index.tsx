@@ -9,14 +9,14 @@ function Nav() {
   const { currentUser } = useSelector((state: ProjectState) => state.userReducer);
 
   return (
-    <div className="navbar navbar-expand-lg fixed-top navbar-light bg-light" style={{top: "0px", height: "60px"}}>
+    <div className="navbar navbar-expand-lg fixed-top bg-light">
       <div className="container-fluid">
         <Link className="navbar-brand" to={"/Home"}><img src={`/images/three.png`} style={{width: '55px', height: '55px' }}/></Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerTarget" aria-controls="navbarTogglerTarget" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div className="collapse navbar-collapse justify-content-between" id="navbarTogglerTarget">
+        <div className="collapse navbar-collapse justify-content-btween bg-light" id="navbarTogglerTarget">
             <ul className="navbar-nav me-3 mb-2 mb-lg-0">
               <li className="nav-item" key={0}>
                   <Link className={`nav-link ${pathname.includes("Home") && "active fw-bold"}`} to={"/Home"}>
@@ -64,7 +64,7 @@ function Nav() {
                 )}
             </ul>
             {currentUser &&
-              <span className="navbar-text ">
+              <span className="navbar-text">
                 Welcome, {currentUser.firstName}
               </span> 
             }
