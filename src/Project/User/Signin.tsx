@@ -31,9 +31,9 @@ export default function Signin() {
       <input value={credentials.password} className="form-control mb-2" type="password"
        onChange={(e) =>
         setCredentials({ ...credentials, password: e.target.value })}/>
-      <button onClick={signin} className="btn btn-primary form-control mb-2"> Signin </button>
+      <button onClick={signin} className="btn bg-success-subtle form-control mb-2" > Signin </button>
 
-      <Link to={"/User/Signup"} className="btn btn-warning form-control">
+      <Link to={"/User/Signup"} className="btn bg-warning-subtle form-control">
         Signup
       </Link>
     </div>

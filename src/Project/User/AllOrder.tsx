@@ -1,6 +1,3 @@
-import { useSelector } from "react-redux";
-import { ProjectState } from "../store";
-
 function AllOrder() {
   
   return (

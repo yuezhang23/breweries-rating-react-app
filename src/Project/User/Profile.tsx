@@ -1,9 +1,10 @@
 import * as client from "./client";
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUser } from "./reducer";
 import axios from "axios";
+import { ProjectState } from "../store";
 axios.defaults.withCredentials = true;
 
 const formatDate = (date: any) => {
@@ -24,13 +25,16 @@ const formatDate = (date: any) => {
 };
 
 export default function Profile() {
-  const [profile, setProfile] = useState({ username: "", password: "", 
+  const { currentUser } = useSelector((state: ProjectState) => state.userReducer);
+
+  const [profile, setProfile] = useState({ _id: "", username: "", password: "", 
     firstName: "", lastName: "", dob: "", email: "", role: "" });
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [isAdmin, setIsAdmin] = useState(false);
   const [error, setError] = useState("");
+  const [complete, setComplete] = useState("");
 
   const onChangeDate = (e: any) => {
     const inputDate = new Date(e.target.value);
@@ -47,8 +51,10 @@ export default function Profile() {
   const fetchProfile = async () => {
     try {
       const account = await client.profile();
-      adminAuth(account)
-      setProfile(account);
+      const user = await client.findUserById(account._id);
+      dispatch(setCurrentUser(user));
+      adminAuth(user);
+      setProfile(user);
     } catch (err) {
       navigate("/User/Signin");
     }
@@ -60,7 +66,10 @@ export default function Profile() {
 
   const updateUser = async () => {
     try {
-      const status = await client.updateUser(profile);
+      const user = await client.updateUser(profile._id, profile);
+      dispatch(setCurrentUser(user));
+      setComplete("Profile successfully updated.")
+      setError("");
     } catch (err: any) {
       setError(err.response.data.message)
     }
@@ -74,31 +83,70 @@ export default function Profile() {
 
   return (
     <div className="container-fluid mt-5">
-      <h1>Profile</h1>
+      
       {isAdmin && 
-        <Link to="/User/Admin/Users" className="btn btn-warning w-100 mb-2">
+        <Link to="/User/Admin/Users" className="btn bg-warning-subtle w-100 mb-2">
           Users
         </Link>
       }
 
       {profile && (
         <div>
+          <h4>Welcome, {profile.username}</h4>
           {error && <div className="alert alert-danger my-1">{error}</div>}
-          <input value={profile.username} className="form-control mb-2" onChange={(e) =>
-            setProfile({ ...profile, username: e.target.value })} required/>
-          <input value={profile.password} type="password" className="form-control mb-2" onChange={(e) =>
-            setProfile({ ...profile, password: e.target.value })} required/>
-          <input value={profile.firstName} className="form-control mb-2" onChange={(e) =>
-            setProfile({ ...profile, firstName: e.target.value })} required/>
-          <input value={profile.lastName} className="form-control mb-2" onChange={(e) =>
-            setProfile({ ...profile, lastName: e.target.value })} required/>
-          <input value={formatDate(profile.dob)} type="date" className="form-control mb-2" onChange={onChangeDate}/>
-          <input value={profile.email} className="form-control mb-2" onChange={(e) =>
-            setProfile({ ...profile, email: e.target.value })} required/>
-          <button onClick={updateUser} className="btn btn-primary form-control mb-2">
+          {complete && <div className="alert alert-success my-1">{complete}</div>}
+
+          <label htmlFor="userUsername" className="form-label">Username: </label>
+          <input
+              type="text"
+              className="form-control"
+              value={profile.username}
+              id="userUsername"
+              onChange={(e) => setProfile({ ...profile, username: e.target.value })} required/>
+
+          <label htmlFor="userPassword" className="form-label mt-2">Password: </label>
+          <input
+              type="password"
+              className="form-control"
+              value={profile.password}
+              id="userPassword"
+              onChange={(e) => setProfile({ ...profile, password: e.target.value })} required/>
+
+          <label htmlFor="userEmail" className="form-label mt-2">Email: </label>
+          <input
+              type="email"
+              className="form-control"
+              value={profile.email}
+              id="userEmail"
+              onChange={(e) => setProfile({ ...profile, email: e.target.value })} required/>
+          
+          <label htmlFor="userFirstName" className="form-label mt-2">First Name: </label>
+          <input
+              type="text"
+              className="form-control"
+              value={profile.firstName}
+              id="userFirstName"
+              onChange={(e) => setProfile({ ...profile, firstName: e.target.value })} required/>
+          <label htmlFor="userLastName" className="form-label mt-2">Last Name: </label>
+          <input
+              type="text"
+              className="form-control"
+              id="userLastName"
+              value={profile.lastName}
+              onChange={(e) => setProfile({ ...profile, lastName: e.target.value })} required/>
+          <label htmlFor="userBirthday" className="form-label mt-2">Date of birth: </label>
+          <input
+              type="date"
+              className="form-control mb-3"
+              id="userBirthday"
+              value={formatDate(profile.dob)}
+              onChange={(e) => setProfile({ ...profile, dob: e.target.value })}
+          />
+
+          <button onClick={updateUser} className="btn bg-primary-subtle form-control mb-2">
             Save
           </button>
-          <button onClick={signout} className="btn btn-danger form-control">
+          <button onClick={signout} className="btn bg-danger-subtle form-control">
             Signout
           </button>
 

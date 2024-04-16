@@ -2,19 +2,19 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import * as client from "./client";
 import axios from "axios";
+import { setCurrentUser } from "./reducer";
 axios.defaults.withCredentials = true;
 
 export default function Signup() {
   const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
   const [user, setUser] = useState({ username: "", password: "", firstName: "", lastName: "", email: "", dob: "", role: "USER"});
   const navigate = useNavigate();
 
   const signup = async () => {
     try {
-      await client.signup(user);
-      setSuccess("User successfully created.");
-      navigate("/User/Profile");
+      const newUser = await client.signup(user);
+      setCurrentUser(newUser);
+      navigate("/User/Signin");
     } catch (err: any) {
       setError(err.response.data.message);
     }
@@ -24,7 +24,6 @@ export default function Signup() {
     <div className="container-fluid mt-5">
       <h1>Sign Up</h1>
       {error && <div className="alert alert-danger my-1">{error}</div>}
-      {success && <div className="alert alert-success my-1">{success}</div>}
       <div className='m-3'>
         <div className="mb-3">
           <label htmlFor="userUsername" className="form-label">Username: </label>
@@ -77,7 +76,7 @@ export default function Signup() {
                   value={user.dob}
                   onChange={(e) => setUser({ ...user, dob: e.target.value })} />
           </div>
-          <button onClick={signup} className="btn btn-primary">
+          <button onClick={signup} className="btn bg-primary-subtle form-control">
               Sign Up
           </button>
       </div>

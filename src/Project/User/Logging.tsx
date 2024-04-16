@@ -1,6 +1,6 @@
 import * as client from "./client";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector} from "react-redux";
+import { useDispatch} from "react-redux";
 import { setCurrentUser } from "./reducer";
 import axios from "axios";
 axios.defaults.withCredentials = true;

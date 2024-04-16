@@ -7,7 +7,8 @@ import { BsFillCheckCircleFill, BsPencil,
 axios.defaults.withCredentials = true;
 
 export default function UserTable() {
-  const [error, setError] = useState(null);
+  const [error, setError] = useState("");
+  const [complete, setComplete] = useState("");
   const [users, setUsers] = useState<User[]>([]);
   const [user, setUser] = useState<User>({
     _id: "", username: "", password: "", firstName: "", lastName: "", email: "", role: "", dob: new Date() });
@@ -16,9 +17,12 @@ export default function UserTable() {
     try {
       const newUser = await client.createUser(user);
       setUsers([newUser, ...users]);
+      setComplete("Successfully created user.");
+      setError("");
     } catch (err: any) {
-      console.log(err);
+      setComplete("");
       setError(error);
+      console.log(err);
     }
   };
 
@@ -26,7 +30,10 @@ export default function UserTable() {
     try {
       await client.deleteUser(user);
       setUsers(users.filter((u) => u._id !== user._id));
+      setComplete("Successfully deleted user.");
+      setError("");
     } catch (err) {
+      setComplete("");
       setError(error);
       console.log(err);
     }
@@ -36,7 +43,9 @@ export default function UserTable() {
     try {
       const u = await client.findUserById(user._id);
       setUser(u);
+      setComplete("");
     } catch (err) {
+      setComplete("");
       setError(error);
       console.log(err);
     }
@@ -47,11 +56,15 @@ export default function UserTable() {
       if (!user._id) {
         throw new Error("select an user to update first")
       }
-      const status = await client.updateUser(user);
+      const status = await client.updateUser(user._id, user);
       setUsers(users.map((u) =>
         (u._id === user._id ? user : u)));
+      setComplete("Successfully updated user.");
+      setError("");
     } catch (err: any) {
+      setComplete("");
       if (err.response && err.response.data.message) {
+
         setError(err.response.data.message);
       } else {
         setError(err.message);
@@ -81,12 +94,11 @@ export default function UserTable() {
         className="form-select w-25 float-end mt-2">
         <option value="USER">User</option>
         <option value="ADMIN">Admin</option>
-        <option value="FACULTY">Faculty</option>
-        <option value="STUDENT">Student</option>
       </select>
 
       <h1>User Table</h1>
       {error && <div className="alert alert-danger my-1">{error}</div>}
+      {complete && <div className="alert alert-success my-1">{complete}</div>}
       <table className="table">
         <thead>
           <tr>
@@ -99,10 +111,10 @@ export default function UserTable() {
           </tr>
           <tr>
             <td>
-            <input value={user.username} onChange={(e) =>
-                setUser({ ...user, username: e.target.value })}/>
-            <input value={user.password} type="password" onChange={(e) =>
-              setUser({ ...user, password: e.target.value })}/>
+              <input value={user.username} className="me-2" onChange={(e) =>
+                setUser({ ...user, username: e.target.value })} placeholder="username"/>
+              <input value={user.password} type="password" onChange={(e) =>
+                setUser({ ...user, password: e.target.value })} placeholder="password"/>
             </td>
             <td>
               <input value={user.firstName} onChange={(e) =>
@@ -117,14 +129,12 @@ export default function UserTable() {
                 setUser({ ...user, role: e.target.value })}>
                 <option value="USER">User</option>
                 <option value="ADMIN">Admin</option>
-                <option value="FACULTY">Faculty</option>
-                <option value="STUDENT">Student</option>
               </select>   
             </td>
             <td>
               <BsFillCheckCircleFill
                 onClick={updateUser} className="me-2 text-success fs-1 text"/>
-              <BsPlusCircleFill type="button" className="fs-1 text-success" onClick={createUser}/>
+              <BsPlusCircleFill className="fs-1 text-success" onClick={createUser}/>
             </td>
           </tr>
         </thead>

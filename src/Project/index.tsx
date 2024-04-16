@@ -4,7 +4,7 @@ import { Provider } from 'react-redux';
 import Nav from './Nav';
 import store from './store';
 import Home from './Home';
-import Search from './Search';
+import MyComponent from './Search/MyComponent';
 import Signup from './User/Signup';
 import Signin from './User/Signin';
 import Logging from './User/Logging';
@@ -21,11 +21,11 @@ function Project() {
         <Logging>
           <div className='d-flex flex-column'>
               <Nav />
-              <div className='flex-grow-1' style={{ paddingTop: '56px' }}>
+              <div className='flex-grow-1 pt-5' >
                   <Routes>
                       <Route path="/" element={<Navigate to="Home" />} />
                       <Route path="Home" element={<Home />} />
-                      <Route path="Search" element={<Search />} />
+                      <Route path="Search" element={<MyComponent />} />
                       <Route path="Menu" element={<Menu />} />
                       <Route path="User/Signin" element={<Signin />} />
                       <Route path="User/Signup" element={<Signup />} />

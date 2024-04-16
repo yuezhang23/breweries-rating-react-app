@@ -9,9 +9,9 @@ function Nav() {
   const { currentUser } = useSelector((state: ProjectState) => state.userReducer);
 
   return (
-    <div className="navbar navbar-expand-lg fixed-top navbar-light bg-light">
+    <div className="navbar navbar-expand-lg fixed-top navbar-light bg-light" style={{top: "0px", height: "60px"}}>
       <div className="container-fluid">
-        <Link className="navbar-brand" to={"/Home"}><img src={`/images/three.jpg`} style={{ width: '50px', height: 'auto' }}/></Link>
+        <Link className="navbar-brand" to={"/Home"}><img src={`/images/three.png`} style={{width: '55px', height: '55px' }}/></Link>
         <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerTarget" aria-controls="navbarTogglerTarget" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
         </button>
@@ -28,19 +28,19 @@ function Nav() {
                       Search
                   </Link>
               </li>
-              <li className="nav-item" key={1}>
+              <li className="nav-item" key={2}>
                   <Link className={`nav-link ${pathname.includes("Menu") && !pathname.includes("User") && "active fw-bold"}`} to={"/Menu"}>
                       Menu
                   </Link>
               </li>
               {!currentUser && (
                   <>
-                    <li className="nav-item" key={2}>
+                    <li className="nav-item" key={3}>
                         <Link className={`nav-link ${pathname.includes("Signin") && "active fw-bold"}`} to={"/User/Signin"}>
                             Signin
                         </Link>
                     </li>
-                    <li className="nav-item" key={3}>
+                    <li className="nav-item" key={4}>
                         <Link className={`nav-link ${pathname.includes("Signup") && "active fw-bold"}`} to={"/User/Signup"}>
                             Signup
                         </Link>
@@ -50,12 +50,12 @@ function Nav() {
 
               {currentUser && (
                 <>
-                  <li className="nav-item" key={4}>
+                  <li className="nav-item" key={5}>
                     <Link className={`nav-link ${pathname.includes("Profile") && "active fw-bold"}`} to={"/User/Profile"}>
                         Profile
                     </Link>
                   </li>
-                  <li className="nav-item" key={5}>
+                  <li className="nav-item" key={6}>
                     <Link className={`nav-link ${pathname.includes("Orderhistory") && "active fw-bold"}`} to={"/User/Orderhistory"}>
                         Order History
                     </Link>
@@ -65,7 +65,7 @@ function Nav() {
             </ul>
             {currentUser &&
               <span className="navbar-text ">
-                Welcome {currentUser.firstName}
+                Welcome, {currentUser.firstName}
               </span> 
             }
         </div>
