@@ -82,7 +82,7 @@ export default function Profile() {
   };
 
   return (
-    <div className="container-fluid mt-5">
+    <div className="container-fluid">
       
       {isAdmin && 
         <Link to="/User/Admin/Users" className="btn bg-warning-subtle w-100 mb-2">

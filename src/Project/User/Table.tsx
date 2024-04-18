@@ -87,7 +87,7 @@ export default function UserTable() {
   useEffect(() => { fetchUsers(); }, []);
 
   return (
-    <div className="container-fluid mt-5">
+    <div className="container-fluid">
       <select
         onChange={(e) => fetchUsersByRole(e.target.value)}
         value={role || "USER"}

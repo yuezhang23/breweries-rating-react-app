@@ -4,15 +4,15 @@ import { Provider } from 'react-redux';
 import Nav from './Nav';
 import store from './store';
 import Home from './Home';
-import MyComponent from './Search/MyComponent';
+import Search from './Search';
 import Signup from './User/Signup';
 import Signin from './User/Signin';
 import Logging from './User/Logging';
 import Profile from './User/Profile';
-import OrderHistory from './User/OrderHistory';
-import AllOrder from './User/AllOrder';
 import UserTable from './User/Table';
-import Menu from './Menu';
+import Details from './Details';
+import DetailBrewery from './Details/DetailBrewery';
+import PublicProfile from './User/PublicProfile';
 
 function Project() {
 
@@ -21,18 +21,18 @@ function Project() {
         <Logging>
           <div className='d-flex flex-column'>
               <Nav />
-              <div className='flex-grow-1 pt-5' >
+              <div className='flex-grow-1 mt-5 pt-5' >
                   <Routes>
                       <Route path="/" element={<Navigate to="Home" />} />
                       <Route path="Home" element={<Home />} />
-                      <Route path="Search" element={<MyComponent />} />
-                      <Route path="Menu" element={<Menu />} />
+                      <Route path="Search" element={<Search />} />
+                      <Route path="Details" element={<Details />} />
+                      <Route path="Details/:detailId" element={<DetailBrewery />} />
                       <Route path="User/Signin" element={<Signin />} />
                       <Route path="User/Signup" element={<Signup />} />
                       <Route path="User/Profile" element={<Profile />} />
-                      <Route path="User/OrderHistory" element={<OrderHistory />} />
-                      <Route path="User/Admin/Users" element={<UserTable />} />
-                      <Route path="User/Admin/Orders" element={<AllOrder />} />         
+                      <Route path="User/Profile/:profileId" element={<PublicProfile />} />
+                      <Route path="User/Admin/Users" element={<UserTable />} /> 
                   </Routes>
               </div>
           </div>

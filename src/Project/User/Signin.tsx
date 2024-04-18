@@ -23,7 +23,7 @@ export default function Signin() {
   };
   
   return (
-    <div className="container-fluid mt-5">
+    <div className="container-fluid">
       <h1>Sign In</h1>
       {error && <div className="alert alert-danger my-1">{error}</div>}
       <input value={credentials.username} className="form-control mb-2" onChange={(e) =>

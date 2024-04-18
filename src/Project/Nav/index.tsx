@@ -29,8 +29,8 @@ function Nav() {
                   </Link>
               </li>
               <li className="nav-item" key={2}>
-                  <Link className={`nav-link ${pathname.includes("Menu") && !pathname.includes("User") && "active fw-bold"}`} to={"/Menu"}>
-                      Menu
+                  <Link className={`nav-link ${pathname.includes("Details") && !pathname.includes("User") && "active fw-bold"}`} to={"/Details"}>
+                      Details
                   </Link>
               </li>
               {!currentUser && (
