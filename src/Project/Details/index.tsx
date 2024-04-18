@@ -34,7 +34,7 @@ function Details() {
   
   return (
     <div className="container-fluid">
-      <h3>Explore Random Brewery {brew.name}</h3>
+      <h3>Explore A Random Brewery {brew.name}</h3>
 
 
     </div>

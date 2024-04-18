@@ -30,7 +30,6 @@ export default function Signup() {
         setUser({...user, role: "USER"})
         return;
       }
-
       const newUser = await client.signup(user);
       setCurrentUser(newUser);
       navigate("/User/Signin");
@@ -46,8 +45,11 @@ export default function Signup() {
     } else if (r === "ADMIN") {
       setIsPremium("");
       setIsAdmin("Please Enter code to register as an Admin:");
+    } else {
+      setIsPremium("");
+      setIsAdmin("");
     }
-    setUser({...user, role: r})
+    setUser({...user, role: r}) 
   }
 
   return (

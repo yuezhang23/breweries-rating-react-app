@@ -1,7 +1,6 @@
 import axios from 'axios';
-axios.defaults.withCredentials = true;
 
-export const BREW_API = process.env.BREWERY_API_BASE as string;
+export const BREW_API = process.env.BREWERY_API_BASE;
 //set as https://api.openbrewerydb.org/v1/breweries on netlify and in .env 
 
 
