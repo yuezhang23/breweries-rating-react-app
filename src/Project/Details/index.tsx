@@ -19,12 +19,7 @@ function Details() {
     longitude: null
   });
 
-  const renderMap = () => {
-    if ((brew.latitude) && (brew.latitude)) {
-      return <GoogleComponent center={{ lat: brew.latitude, lng: brew.longitude }}/>
-    }
-  }
-
+  const [isNull, setIsNull] = useState(false)
 
   const fetchBrew = async () => {
     try {
@@ -34,16 +29,20 @@ function Details() {
         latitude: parseFloat(brewery.latitude),
         longitude: parseFloat(brewery.longitude)
       });
-      console.log(brewery.latitude)
-      console.log(brewery.longitude)
-
     } catch (error: any) {
       console.error(error.response.data);
     }
   };
 
+  const nullValue = () => {
+    if (brew.latitude === null || brew.longitude === null) {
+      setIsNull(true);
+    }
+  }
+
   useEffect(() => {
     fetchBrew();
+    nullValue();
   }, []);
 
   return (
@@ -68,7 +67,9 @@ function Details() {
         </div>
 
         <div className="col-md-6">
-          {renderMap()}
+        {(isNull) ? (
+          <div>No Map info</div>
+          ):(<><GoogleComponent center={{ lat: brew.latitude, lng: brew.longitude }}/></>)}
         </div>
       </div>
     </div>
