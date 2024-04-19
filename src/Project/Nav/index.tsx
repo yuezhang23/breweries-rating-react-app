@@ -34,18 +34,18 @@ function Nav() {
                   </Link>
               </li>
               {!currentUser && (
-                  <>
-                    <li className="nav-item" key={3}>
-                        <Link className={`nav-link ${pathname.includes("Signin") && "active fw-bold"}`} to={"/User/Signin"}>
-                            Signin
-                        </Link>
-                    </li>
-                    <li className="nav-item" key={4}>
-                        <Link className={`nav-link ${pathname.includes("Signup") && "active fw-bold"}`} to={"/User/Signup"}>
-                            Signup
-                        </Link>
-                    </li>
-                  </>
+                <>
+                  <li className="nav-item" key={3}>
+                      <Link className={`nav-link ${pathname.includes("Signin") && "active fw-bold"}`} to={"/User/Signin"}>
+                          Signin
+                      </Link>
+                  </li>
+                  <li className="nav-item" key={4}>
+                      <Link className={`nav-link ${pathname.includes("Signup") && "active fw-bold"}`} to={"/User/Signup"}>
+                          Signup
+                      </Link>
+                  </li>
+                </>
               )}
 
               {currentUser && (

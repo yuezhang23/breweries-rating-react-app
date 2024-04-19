@@ -4,8 +4,8 @@ import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUser } from "./reducer";
 import axios from "axios";
-import { ProjectState } from "../store";
 import { FaRegStar } from "react-icons/fa6";
+import {followsNumber, followersNumber} from "./followClient";
 axios.defaults.withCredentials = true;
 
 const formatDate = (date: any) => {
@@ -26,7 +26,6 @@ const formatDate = (date: any) => {
 };
 
 export default function Profile() {
-  const { currentUser } = useSelector((state: ProjectState) => state.userReducer);
 
   const [profile, setProfile] = useState({ _id: "", username: "", password: "", 
     firstName: "", lastName: "", dob: "", email: "", role: "" });
@@ -36,6 +35,8 @@ export default function Profile() {
 
   const [isAdmin, setIsAdmin] = useState(false);
   const [isPremium, setIsPremium] = useState(false);
+  const [fo, setFo] = useState(0);
+  const [fer, setFer] = useState(0);
   const [error, setError] = useState("");
   const [complete, setComplete] = useState("");
 
@@ -57,9 +58,13 @@ export default function Profile() {
     try {
       const account = await client.profile();
       const user = await client.findUserById(account._id);
+      const follows = await followsNumber(account._id);
+      const followers = await followersNumber(account._id);
       dispatch(setCurrentUser(user));
       auth(user);
       setProfile(user);
+      setFo(follows)
+      setFer(followers)
     } catch (err) {
       navigate("/User/Signin");
     }
@@ -80,6 +85,24 @@ export default function Profile() {
     }
   };
 
+  const updateRole = async () => {
+    try {
+      if (pmt) {
+        const updated = { ...profile, role: "PREMIUM_USER" };
+        const user = await client.updateUser(profile._id, updated);
+        dispatch(setCurrentUser(user));
+        setProfile(updated);
+        setComplete("User successfully upgraded.")
+        setError("");
+      } else {
+        setError("Please select your payment.")
+      }
+    } catch (err: any) {
+      setError(err.response.data.message)
+    }
+  };
+
+
   const signout = async () => {
     await client.signout();
     dispatch(setCurrentUser(null));
@@ -97,9 +120,14 @@ export default function Profile() {
 
       {profile && (
         <div>
-          <h4>Welcome, {profile.username} 
-            {isPremium && <FaRegStar className="text-warning ms-2 mb-1" />}
-          </h4>
+          <div>
+            <div className="float-end">
+              {fo} || {fer}
+            </div>
+            <h4>Welcome, {profile.username} 
+              {isPremium && <FaRegStar className="text-warning ms-2 mb-1" />}
+            </h4>
+          </div>
           {error && <div className="alert alert-danger my-1">{error}</div>}
           {complete && <div className="alert alert-success my-1">{complete}</div>}
 
@@ -152,9 +180,6 @@ export default function Profile() {
           <label htmlFor="userRole" className="form-label mt-2">User Type: </label>
           <input className="form-control" value={profile.role} disabled/>
 
-
-
-
           <button onClick={updateUser} className="btn bg-primary-subtle form-control mt-3">
             Save
           </button>
@@ -170,7 +195,7 @@ export default function Profile() {
               <option value="AMEX">Amex</option>
               <option value="PAYPAL">PayPal</option>
             </select>
-            <button onClick={updateUser} className="btn bg-primary-subtle form-control mt-3">
+            <button onClick={updateRole} className="btn bg-primary-subtle form-control mt-3">
               Upgrade to premium user
               <FaRegStar className="text-warning ms-2 mb-1" />
             </button>

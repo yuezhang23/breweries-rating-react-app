@@ -6,12 +6,12 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 
 function Logging({ children } : {children: any}) {
-  const [loading, setLoading] = useState(true);
+  const [logging, setLogging] = useState(true);
   const dispatch = useDispatch();
 
   const fetchUser = async() => {
     try {
-      setLoading(false);
+      setLogging(false);
       const user = await client.profile();
       dispatch(setCurrentUser(user));
     } catch (error: any) {
@@ -25,7 +25,7 @@ function Logging({ children } : {children: any}) {
 
   return (
     <>
-      {!loading && children}
+      {!logging && children}
     </>
   );
 }
