@@ -39,6 +39,6 @@ function GoogleComponent({ center }) {
             draggable={true}/>
         }
       </GoogleMap>
-  ) : <></>;
+  ) : "";
 }
 export default memo(GoogleComponent);

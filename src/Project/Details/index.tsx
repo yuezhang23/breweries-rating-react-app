@@ -19,8 +19,6 @@ function Details() {
     longitude: null
   });
 
-  const [isNull, setIsNull] = useState(false)
-
   const fetchBrew = async () => {
     try {
       const brewery = await service.randomBreweryFromAPI();
@@ -34,15 +32,8 @@ function Details() {
     }
   };
 
-  const nullValue = () => {
-    if (brew.latitude === null || brew.longitude === null) {
-      setIsNull(true);
-    }
-  }
-
   useEffect(() => {
     fetchBrew();
-    nullValue();
   }, []);
 
   return (
@@ -67,9 +58,10 @@ function Details() {
         </div>
 
         <div className="col-md-6">
-        {(isNull) ? (
-          <div>No Map info</div>
-          ):(<><GoogleComponent center={{ lat: brew.latitude, lng: brew.longitude }}/></>)}
+          {(!brew.latitude || !brew.longitude) ?  
+            <>No Map Info</> :
+            <GoogleComponent center={{ lat: brew.latitude, lng: brew.longitude }}/> 
+          }
         </div>
       </div>
     </div>
