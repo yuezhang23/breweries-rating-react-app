@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUser } from "./reducer";
 import axios from "axios";
 import { ProjectState } from "../store";
+import { FaRegStar } from "react-icons/fa6";
 axios.defaults.withCredentials = true;
 
 const formatDate = (date: any) => {
@@ -29,10 +30,12 @@ export default function Profile() {
 
   const [profile, setProfile] = useState({ _id: "", username: "", password: "", 
     firstName: "", lastName: "", dob: "", email: "", role: "" });
+  const [pmt, setPmt] = useState("");
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const [isAdmin, setIsAdmin] = useState(false);
+  const [isPremium, setIsPremium] = useState(false);
   const [error, setError] = useState("");
   const [complete, setComplete] = useState("");
 
@@ -42,9 +45,11 @@ export default function Profile() {
     setProfile({ ...profile, dob: formattedDate });
   };
 
-  const adminAuth = (profile: any) => {
+  const auth = (profile: any) => {
     if (profile.role === "ADMIN") {
       setIsAdmin(true);
+    } else if (profile.role === "PREMIUM_USER") {
+      setIsPremium(true);
     }
   }
 
@@ -53,7 +58,7 @@ export default function Profile() {
       const account = await client.profile();
       const user = await client.findUserById(account._id);
       dispatch(setCurrentUser(user));
-      adminAuth(user);
+      auth(user);
       setProfile(user);
     } catch (err) {
       navigate("/User/Signin");
@@ -63,7 +68,7 @@ export default function Profile() {
   useEffect(() => {
     fetchProfile();
   }, []);
-
+  
   const updateUser = async () => {
     try {
       const user = await client.updateUser(profile._id, profile);
@@ -92,7 +97,9 @@ export default function Profile() {
 
       {profile && (
         <div>
-          <h4>Welcome, {profile.username}</h4>
+          <h4>Welcome, {profile.username} 
+            {isPremium && <FaRegStar className="text-warning ms-2 mb-1" />}
+          </h4>
           {error && <div className="alert alert-danger my-1">{error}</div>}
           {complete && <div className="alert alert-success my-1">{complete}</div>}
 
@@ -137,16 +144,40 @@ export default function Profile() {
           <label htmlFor="userBirthday" className="form-label mt-2">Date of birth: </label>
           <input
               type="date"
-              className="form-control mb-3"
+              className="form-control"
               id="userBirthday"
               value={formatDate(profile.dob)}
-              onChange={(e) => setProfile({ ...profile, dob: e.target.value })}
+              onChange={onChangeDate}
           />
+          <label htmlFor="userRole" className="form-label mt-2">User Type: </label>
+          <input className="form-control" value={profile.role} disabled/>
 
-          <button onClick={updateUser} className="btn bg-primary-subtle form-control mb-2">
+
+
+
+          <button onClick={updateUser} className="btn bg-primary-subtle form-control mt-3">
             Save
           </button>
-          <button onClick={signout} className="btn bg-danger-subtle form-control">
+
+          {(!isAdmin && !isPremium) && 
+          <>
+            <label htmlFor="patron" className="form-label">Become a Patron(Payment info): </label>
+            <select className="form-select mb-2" id="patron" value={pmt} onChange={(e) =>
+              setPmt(e.target.value)}>
+              <option value="">Select a Payment Method</option>
+              <option value="VISA">Visa</option>
+              <option value="MASTERCARD">Master Card</option>
+              <option value="AMEX">Amex</option>
+              <option value="PAYPAL">PayPal</option>
+            </select>
+            <button onClick={updateUser} className="btn bg-primary-subtle form-control mt-3">
+              Upgrade to premium user
+              <FaRegStar className="text-warning ms-2 mb-1" />
+            </button>
+          </>
+          }
+
+          <button onClick={signout} className="btn bg-danger-subtle form-control mt-3">
             Signout
           </button>
 

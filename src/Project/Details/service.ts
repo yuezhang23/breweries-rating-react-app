@@ -1,12 +1,12 @@
 import axios from 'axios';
+axios.defaults.withCredentials = true;
 
-export const BREW_API = process.env.BREWERY_API_BASE;
-//set as https://api.openbrewerydb.org/v1/breweries on netlify and in .env 
-
+export const BASE_API = process.env.REACT_APP_API_BASE;
+export const BREW_API = `${BASE_API}/api/breweries`;
 
 export const randomBreweryFromAPI = async () => {
-  console.log('API Base URL:', BREW_API);
+  console.log('BREW API URL:', BREW_API);
   const response = await axios.get(`${BREW_API}/random`)
-  return response.data[0];
+  return response.data;
 }
 

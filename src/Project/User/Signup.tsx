@@ -17,8 +17,8 @@ export default function Signup() {
 
   const signup = async () => {
     try {
-      if (user.role === "PREMIUM_USER" && pmt.length !== 16) {
-        setError("Enter a valid 16 digits payment info.")
+      if (user.role === "PREMIUM_USER" && !pmt) {
+        setError("Select a valid payment type.")
         setUser({...user, role: "USER"})
         setIsPremium("");
         setIsAdmin("");
@@ -124,8 +124,14 @@ export default function Signup() {
             <>
               <div className="alert alert-warning my-1">{isPremium}</div>
               <label htmlFor="patron" className="form-label">Become a Patron(Payment info): </label>
-              <input className="form-control" id="patron" value={pmt} 
-                onChange={(e) => setPmt(e.target.value)} />
+              <select className="form-select mb-2" id="patron" value={pmt} onChange={(e) =>
+                setPmt(e.target.value)}>
+                <option value="">Select a Payment Method</option>
+                <option value="VISA">Visa</option>
+                <option value="MASTERCARD">Master Card</option>
+                <option value="AMEX">Amex</option>
+                <option value="PAYPAL">PayPal</option>
+              </select>
             </>
             }
             {isAdmin && 
