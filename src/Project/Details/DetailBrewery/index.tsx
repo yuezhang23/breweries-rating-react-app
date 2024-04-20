@@ -11,6 +11,7 @@ interface Brewery {
   city: string;
   state: string;
   country: string;
+  address_1: string;
   latitude: string;
   longitude: string;
 }
@@ -47,7 +48,7 @@ function DetailBrewery() {
               <p className="card-text"><strong>Website:</strong>
                 <a href={brew.website_url} className="ms-1 text-decoration-none text-white" target="_blank" rel="noopener noreferrer">{brew.website_url}</a>
               </p>
-              <p className="card-text"><strong>Address:</strong> {`${brew.city}, ${brew.state}, ${brew.country}`}</p>
+              <p className="card-text"><strong>Address:</strong> {`${brew.address_1}, ${brew.city}, ${brew.state}, ${brew.country}`}</p>
             </div>
           </div>
         </div>
