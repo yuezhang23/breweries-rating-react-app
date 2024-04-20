@@ -29,7 +29,6 @@ export default function PublicProfile() {
     }
   }
 
-
   const fetchUser = async () => {
     try {
       if (profileId === currentUser._id) {

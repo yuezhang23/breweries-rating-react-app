@@ -39,7 +39,7 @@ function Details() {
   return (
     <div className="container-fluid">
       <div className="ms-2">
-        <h1>Explore A Random Brewery</h1>
+        <h2>Explore A Random Brewery</h2>
       </div>
 
       <div className="row">

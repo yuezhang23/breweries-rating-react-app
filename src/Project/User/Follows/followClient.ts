@@ -2,7 +2,7 @@ import axios from 'axios';
 axios.defaults.withCredentials = true;
 
 export const BASE_API_URL = process.env.REACT_APP_API_BASE;
-export const FOLLOW_API = `${BASE_API_URL}/api/users/follow`;
+export const FOLLOW_API = `${BASE_API_URL}/api/follow`;
 
 export const followsUser = async (follows: any) => {
   const response = await axios.post(`${FOLLOW_API}/${follows}`)

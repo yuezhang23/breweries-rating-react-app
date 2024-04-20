@@ -17,13 +17,13 @@ function FollowDetails() {
     }
   }
 
-  const [followers, setFollowers] = useState([]);
-  const [follows, setFollows] = useState([]);
+  const [followerss, setFollowerss] = useState([]);
+  const [followss, setFollowss] = useState([]);
 
   const fetchFollowers = async () => {
     try {
       const allFollowers = await fClient.findFollowersOfAUser(profileId);
-      setFollowers(allFollowers);
+      setFollowerss(allFollowers);
     } catch (err) {
       navigate("/User/Signin");
       console.error(err.response.data);
@@ -33,7 +33,7 @@ function FollowDetails() {
   const fetchFollows = async () => {
     try {
       const allFollows = await fClient.findFollowsOfAUser(profileId);
-      setFollows(allFollows); 
+      setFollowss(allFollows); 
     } catch (err) {
       console.error(err.response.data);
     }
@@ -52,20 +52,20 @@ function FollowDetails() {
       </Link>
         <h3>Follows</h3>
         <ul className="list-group">
-          {follows.map((follows, index) => (
+          {followss.map((fows, index) => (
             <li key={index} className="list-group-item">
-              <Link to={`/User/Profile/${follows.follows._id}`} className='text-decoration-none'>
-                {follows.follows.username}
+              <Link to={`/User/Profile/${fows.follows._id}`} className='text-decoration-none'>
+                {fows.follows.username}
               </Link>
             </li>
           ))}
         </ul>
        <h3>Followers</h3>
       <ul className="list-group">
-        {followers.map((follower, index) => (
+        {followerss.map((fwer, index) => (
           <li key={index} className="list-group-item">
-            <Link to={`/User/Profile/${follower.follower._id}`} className='text-decoration-none'>
-              {follower.follower.username}
+            <Link to={`/User/Profile/${fwer.follower._id}`} className='text-decoration-none'>
+              {fwer.follower.username}
             </Link>
           </li>
         ))}

@@ -53,7 +53,6 @@ export default function Profile() {
     } else if (profile.role === "OWNER") {
       setIsOwner(true);
     }
-    console.log(profile.role)
   }
 
   const fetchProfile = async () => {

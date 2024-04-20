@@ -23,7 +23,7 @@ export const profile = async () => {
 };
 
 export const updateUser = async (userId: any, user: any) => {
-  const response = await axios.put(`${USERS_API}/${userId}`, user);
+  const response = await axios.put(`${USERS_API}/updates/${userId}`, user);
   return response.data;
 };
 
@@ -39,7 +39,7 @@ export const findAllUsers = async () => {
 };
 
 export const findUserById = async (userId: any) => {
-  const response = await axios.get(`${USERS_API}/${userId}`);
+  const response = await axios.get(`${USERS_API}/find/${userId}`);
   return response.data;
 };
 
