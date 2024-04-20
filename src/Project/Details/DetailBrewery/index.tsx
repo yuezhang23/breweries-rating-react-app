@@ -34,12 +34,6 @@ function DetailBrewery() {
   if (!brew) {
     return <div>Loading brewery details...</div>; 
   }
-
-  const renderMap = () => {
-    if ((brew.latitude) && (brew.latitude)) {
-      return <GoogleComponent center={{ lat: parseFloat(brew.latitude), lng: parseFloat(brew.longitude) }}/>
-    }
-  }
   
   return (
     <div className="container-fluid">
@@ -58,7 +52,10 @@ function DetailBrewery() {
           </div>
         </div>
         <div className="col-md-6">
-          {renderMap()}
+        {(!brew.latitude || !brew.longitude) ?  
+            <>No Map Info</> :
+            <GoogleComponent center={{ lat: parseFloat(brew.latitude), lng: parseFloat(brew.longitude) }}/> 
+          }
         </div>
       </div>
     </div>
