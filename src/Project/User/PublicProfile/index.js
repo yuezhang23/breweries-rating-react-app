@@ -55,6 +55,11 @@ export default function PublicProfile() {
       navigate("/User/Signin")
       return;
     }
+    if (user && user.role === "ADMIN") {
+      alert("Cannot follow admin")
+      navigate("/User/Profile")
+      return;
+    }
     const status = await fClient.followsUser(profileId);
     fetchFollows();
   }
@@ -79,7 +84,7 @@ export default function PublicProfile() {
       <div className="card">
         <div className="card-header">
           <h3>{user.username}'s Profile</h3>
-          {currentUser && 
+          {currentUser &&
             <div className="d-flex justify-content-end align-items-center">
             <Link to={`/User/Profile/${profileId}/follows`} className="badge bg-success-subtle text-dark p-2 fs-6 me-2 text-decoration-none">
               Followers 

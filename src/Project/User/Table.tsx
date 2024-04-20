@@ -128,7 +128,7 @@ export default function UserTable() {
               <select className="me-2" value={user.role} onChange={(e) =>
                 setUser({ ...user, role: e.target.value })}>
                 <option value="USER">User</option>
-                <option value="PREMIUM_USER">Premium User</option>
+                <option value="OWNER">BREWERY OWNER</option>
                 <option value="ADMIN">Admin</option>
               </select>   
             </td>

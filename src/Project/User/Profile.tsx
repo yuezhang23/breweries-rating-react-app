@@ -36,7 +36,7 @@ export default function Profile() {
   const dispatch = useDispatch();
 
   const [isAdmin, setIsAdmin] = useState(false);
-  const [isPremium, setIsPremium] = useState(false);
+  const [isOwner, setIsOwner] = useState(false);
 
   const [error, setError] = useState("");
   const [complete, setComplete] = useState("");
@@ -50,9 +50,10 @@ export default function Profile() {
   const auth = (profile: any) => {
     if (profile.role === "ADMIN") {
       setIsAdmin(true);
-    } else if (profile.role === "PREMIUM_USER") {
-      setIsPremium(true);
+    } else if (profile.role === "OWNER") {
+      setIsOwner(true);
     }
+    console.log(profile.role)
   }
 
   const fetchProfile = async () => {
@@ -85,12 +86,13 @@ export default function Profile() {
   const updateRole = async () => {
     try {
       if (pmt) {
-        const updated = { ...profile, role: "PREMIUM_USER" };
+        const updated = { ...profile, role: "OWNER" };
         const user = await client.updateUser(profile._id, updated);
         dispatch(setCurrentUser(user));
         setProfile(updated);
         setComplete("User successfully upgraded.")
         setError("");
+        setIsOwner(true);
       } else {
         setError("Please select your payment.")
       }
@@ -121,9 +123,9 @@ export default function Profile() {
           <div className="card-header">
             
             <h4>Welcome, {profile.username} 
-              {isPremium && <FaRegStar className="text-warning ms-2 mb-1" />}
+              {isOwner && <FaRegStar className="text-warning ms-2 mb-1" />}
             </h4>
-            { !isAdmin && currentUser && <FollowComponent id={currentUser._id}/>}
+            {currentUser && <FollowComponent id={currentUser._id}/>}
           </div>
           <div className="card-body">
             {error && <div className="alert alert-danger my-1">{error}</div>}
@@ -176,15 +178,19 @@ export default function Profile() {
                 onChange={onChangeDate}
             />
             <label htmlFor="userRole" className="form-label mt-2">User Type: </label>
-            <input className="form-control" value={profile.role} disabled/>
+            <select className="form-select mb-2" id="userRole" value={profile.role} 
+              onChange={(e) => setProfile({...profile, role: e.target.value})}>
+              <option value="USER">User</option>
+              <option value="OWNER">BREWERY OWNER</option>
+            </select>
 
             <button onClick={updateUser} className="btn bg-primary-subtle form-control mt-3">
               Save
             </button>
 
-            {(!isAdmin && !isPremium) && 
+            {!(isOwner) && (profile.role === "OWNER") &&
             <>
-              <label htmlFor="patron" className="form-label">Become a Patron(Payment info): </label>
+              <label htmlFor="patron" className="form-label">Become a Patron to upgrade as a brewery (Payment info): </label>
               <select className="form-select mb-2" id="patron" value={pmt} onChange={(e) =>
                 setPmt(e.target.value)}>
                 <option value="">Select a Payment Method</option>
@@ -194,7 +200,7 @@ export default function Profile() {
                 <option value="PAYPAL">PayPal</option>
               </select>
               <button onClick={updateRole} className="btn bg-primary-subtle form-control mt-3">
-                Upgrade to premium user
+                Upgrade to brewery owner user
                 <FaRegStar className="text-warning ms-2 mb-1" />
               </button>
             </>

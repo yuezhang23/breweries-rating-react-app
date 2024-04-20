@@ -2,8 +2,6 @@ import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import * as fClient from './followClient';
-import { User } from '../client';
-import { ProjectState } from '../../store';
 import axios from 'axios';
 axios.defaults.withCredentials = true;
 
