@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCurrentUser } from "./reducer";
 import axios from "axios";
 import { FaRegStar } from "react-icons/fa6";
-import {followsNumber, followersNumber} from "./followClient";
+import FollowComponent from "./Follows/FollowComponent";
+import { ProjectState } from "../store";
 axios.defaults.withCredentials = true;
 
 const formatDate = (date: any) => {
@@ -27,6 +28,7 @@ const formatDate = (date: any) => {
 
 export default function Profile() {
 
+  const { currentUser } = useSelector((state: ProjectState) => state.userReducer);
   const [profile, setProfile] = useState({ _id: "", username: "", password: "", 
     firstName: "", lastName: "", dob: "", email: "", role: "" });
   const [pmt, setPmt] = useState("");
@@ -35,8 +37,7 @@ export default function Profile() {
 
   const [isAdmin, setIsAdmin] = useState(false);
   const [isPremium, setIsPremium] = useState(false);
-  const [fo, setFo] = useState(0);
-  const [fer, setFer] = useState(0);
+
   const [error, setError] = useState("");
   const [complete, setComplete] = useState("");
 
@@ -58,13 +59,9 @@ export default function Profile() {
     try {
       const account = await client.profile();
       const user = await client.findUserById(account._id);
-      const follows = await followsNumber(account._id);
-      const followers = await followersNumber(account._id);
       dispatch(setCurrentUser(user));
       auth(user);
       setProfile(user);
-      setFo(follows)
-      setFer(followers)
     } catch (err) {
       navigate("/User/Signin");
     }
@@ -107,6 +104,7 @@ export default function Profile() {
     await client.signout();
     dispatch(setCurrentUser(null));
     navigate("/User/Signin");
+
   };
 
   return (
@@ -119,95 +117,95 @@ export default function Profile() {
       }
 
       {profile && (
-        <div>
-          <div>
-            <div className="float-end">
-              {fo} || {fer}
-            </div>
+        <div className="card">
+          <div className="card-header">
+            
             <h4>Welcome, {profile.username} 
               {isPremium && <FaRegStar className="text-warning ms-2 mb-1" />}
             </h4>
+            { !isAdmin && currentUser && <FollowComponent id={currentUser._id}/>}
           </div>
-          {error && <div className="alert alert-danger my-1">{error}</div>}
-          {complete && <div className="alert alert-success my-1">{complete}</div>}
+          <div className="card-body">
+            {error && <div className="alert alert-danger my-1">{error}</div>}
+            {complete && <div className="alert alert-success my-1">{complete}</div>}
 
-          <label htmlFor="userUsername" className="form-label">Username: </label>
-          <input
-              type="text"
-              className="form-control"
-              value={profile.username}
-              id="userUsername"
-              onChange={(e) => setProfile({ ...profile, username: e.target.value })} required/>
+            <label htmlFor="userUsername" className="form-label">Username: </label>
+            <input
+                type="text"
+                className="form-control"
+                value={profile.username}
+                id="userUsername"
+                onChange={(e) => setProfile({ ...profile, username: e.target.value })} required/>
 
-          <label htmlFor="userPassword" className="form-label mt-2">Password: </label>
-          <input
-              type="password"
-              className="form-control"
-              value={profile.password}
-              id="userPassword"
-              onChange={(e) => setProfile({ ...profile, password: e.target.value })} required/>
+            <label htmlFor="userPassword" className="form-label mt-2">Password: </label>
+            <input
+                type="password"
+                className="form-control"
+                value={profile.password}
+                id="userPassword"
+                onChange={(e) => setProfile({ ...profile, password: e.target.value })} required/>
 
-          <label htmlFor="userEmail" className="form-label mt-2">Email: </label>
-          <input
-              type="email"
-              className="form-control"
-              value={profile.email}
-              id="userEmail"
-              onChange={(e) => setProfile({ ...profile, email: e.target.value })} required/>
-          
-          <label htmlFor="userFirstName" className="form-label mt-2">First Name: </label>
-          <input
-              type="text"
-              className="form-control"
-              value={profile.firstName}
-              id="userFirstName"
-              onChange={(e) => setProfile({ ...profile, firstName: e.target.value })} required/>
-          <label htmlFor="userLastName" className="form-label mt-2">Last Name: </label>
-          <input
-              type="text"
-              className="form-control"
-              id="userLastName"
-              value={profile.lastName}
-              onChange={(e) => setProfile({ ...profile, lastName: e.target.value })} required/>
-          <label htmlFor="userBirthday" className="form-label mt-2">Date of birth: </label>
-          <input
-              type="date"
-              className="form-control"
-              id="userBirthday"
-              value={formatDate(profile.dob)}
-              onChange={onChangeDate}
-          />
-          <label htmlFor="userRole" className="form-label mt-2">User Type: </label>
-          <input className="form-control" value={profile.role} disabled/>
+            <label htmlFor="userEmail" className="form-label mt-2">Email: </label>
+            <input
+                type="email"
+                className="form-control"
+                value={profile.email}
+                id="userEmail"
+                onChange={(e) => setProfile({ ...profile, email: e.target.value })} required/>
+            
+            <label htmlFor="userFirstName" className="form-label mt-2">First Name: </label>
+            <input
+                type="text"
+                className="form-control"
+                value={profile.firstName}
+                id="userFirstName"
+                onChange={(e) => setProfile({ ...profile, firstName: e.target.value })} required/>
+            <label htmlFor="userLastName" className="form-label mt-2">Last Name: </label>
+            <input
+                type="text"
+                className="form-control"
+                id="userLastName"
+                value={profile.lastName}
+                onChange={(e) => setProfile({ ...profile, lastName: e.target.value })} required/>
+            <label htmlFor="userBirthday" className="form-label mt-2">Date of birth: </label>
+            <input
+                type="date"
+                className="form-control"
+                id="userBirthday"
+                value={formatDate(profile.dob)}
+                onChange={onChangeDate}
+            />
+            <label htmlFor="userRole" className="form-label mt-2">User Type: </label>
+            <input className="form-control" value={profile.role} disabled/>
 
-          <button onClick={updateUser} className="btn bg-primary-subtle form-control mt-3">
-            Save
-          </button>
-
-          {(!isAdmin && !isPremium) && 
-          <>
-            <label htmlFor="patron" className="form-label">Become a Patron(Payment info): </label>
-            <select className="form-select mb-2" id="patron" value={pmt} onChange={(e) =>
-              setPmt(e.target.value)}>
-              <option value="">Select a Payment Method</option>
-              <option value="VISA">Visa</option>
-              <option value="MASTERCARD">Master Card</option>
-              <option value="AMEX">Amex</option>
-              <option value="PAYPAL">PayPal</option>
-            </select>
-            <button onClick={updateRole} className="btn bg-primary-subtle form-control mt-3">
-              Upgrade to premium user
-              <FaRegStar className="text-warning ms-2 mb-1" />
+            <button onClick={updateUser} className="btn bg-primary-subtle form-control mt-3">
+              Save
             </button>
-          </>
-          }
 
-          <button onClick={signout} className="btn bg-danger-subtle form-control mt-3">
-            Signout
-          </button>
+            {(!isAdmin && !isPremium) && 
+            <>
+              <label htmlFor="patron" className="form-label">Become a Patron(Payment info): </label>
+              <select className="form-select mb-2" id="patron" value={pmt} onChange={(e) =>
+                setPmt(e.target.value)}>
+                <option value="">Select a Payment Method</option>
+                <option value="VISA">Visa</option>
+                <option value="MASTERCARD">Master Card</option>
+                <option value="AMEX">Amex</option>
+                <option value="PAYPAL">PayPal</option>
+              </select>
+              <button onClick={updateRole} className="btn bg-primary-subtle form-control mt-3">
+                Upgrade to premium user
+                <FaRegStar className="text-warning ms-2 mb-1" />
+              </button>
+            </>
+            }
 
-        </div>
-        
+            <button onClick={signout} className="btn bg-danger-subtle form-control mt-3">
+              Signout
+            </button>
+
+          </div>
+        </div>  
       )}
     </div>
   );

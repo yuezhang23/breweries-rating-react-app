@@ -38,12 +38,12 @@ export const findAllUsers = async () => {
   return response.data;
 };
 
-export const findUserById = async (id: string) => {
-  const response = await axios.get(`${USERS_API}/${id}`);
+export const findUserById = async (userId: any) => {
+  const response = await axios.get(`${USERS_API}/${userId}`);
   return response.data;
 };
 
-export const findUsersByRole = async (role: string) => {
+export const findUsersByRole = async (role: any) => {
   const response = await axios.get(`${USERS_API}?role=${role}`);
   return response.data;
 };

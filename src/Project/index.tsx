@@ -12,8 +12,8 @@ import Profile from './User/Profile';
 import UserTable from './User/Table';
 import Details from './Details';
 import DetailBrewery from './Details/DetailBrewery';
-import PublicProfile from './User/FollowDetails';
-import FollowDetails from './User/FollowDetails';
+import PublicProfile from './User/PublicProfile';
+import FollowDetails from './User/Follows/FollowDetails';
 
 function Project() {
 
