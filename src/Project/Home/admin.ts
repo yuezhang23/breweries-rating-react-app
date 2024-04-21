@@ -22,7 +22,7 @@ export const deleteBrew = async (brew: any) => {
 };
 
 export const findAllBrews = async () => {
-    const response = await axios.get(`${ADMIN_API}/breweries/`);
+    const response = await axios.get(`${ADMIN_API}/breweries`);
     return response.data;
 };
 
@@ -32,12 +32,12 @@ export const findBrewById = async (id: string) => {
 };
 
 export const sortBrewByLikes = async (count: number) => {
-    const response = await axios.get(`${ADMIN_API}/breweries/likes/${count}`);
+    const response = await axios.get(`${ADMIN_API}/breweries/likes/`+ count);
     return response.data;
 };
 
 export const sortBrewByFollowers = async (count: number) => {
-    const response = await axios.get(`${ADMIN_API}/breweries/followers/${count}`);
+    const response = await axios.get(`${ADMIN_API}/breweries/followers/`+ count);
     return response.data;
 };
 

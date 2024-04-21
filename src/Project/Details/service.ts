@@ -9,10 +9,10 @@ export const BREW_API = `${BASE_API}/api/breweries`;
 export const randomBreweryFromAPI = async () => {
   console.log('API Base URL:', BREW_API);
   const response = await axios.get(`${BREW_API}/random`)
-  const local = await axios.get(`${BASE_API}/api/admin/breweries/random`)
   if (response) {
     return response.data;
   } else {
+    const local = await axios.get(`${BASE_API}/api/admin/breweries/random`)
     return local.data;
   }
 }
@@ -20,10 +20,10 @@ export const randomBreweryFromAPI = async () => {
 
 export const getAllBreweries = async () => {
   const response = await axios.get(`${BREW_API}`);
-  const local = await axios.get(`${BASE_API}/api/admin/breweries`);
   if (response) {
     return response.data;
   } else {
+    const local = await axios.get(`${BASE_API}/api/admin/breweries`);
     return local.data;
   }
 }

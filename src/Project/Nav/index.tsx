@@ -55,11 +55,6 @@ function Nav() {
                         Profile
                     </Link>
                   </li>
-                  <li className="nav-item" key={6}>
-                    <Link className={`nav-link ${pathname.includes("Orderhistory") && "active fw-bold"}`} to={"/User/Orderhistory"}>
-                        Order History
-                    </Link>
-                  </li>
                 </>
                 )}
             </ul>
