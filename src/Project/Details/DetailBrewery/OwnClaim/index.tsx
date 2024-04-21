@@ -11,12 +11,14 @@ export default function OwnerClaim() {
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [brew, setBrew] = useState({id: "", name: "", website_url: ""});
-  const [claim, setClaim] = useState({brewery_ref: "", legalName: "", additional: "", completed: false});
+  const [claim, setClaim] = useState({owner: "", brewery_ref: detailId, legalName: "", additional: "", completed: false});
 
   const submit = async () => {
     try {
       const newClaim = await client.createClaim(claim);
       setError("")
+      alert("Request Submitted")
+      navigate("/Search")
     } catch (err: any) {
       setError(err.response.data);
     }
@@ -28,21 +30,33 @@ export default function OwnerClaim() {
       const response = await fetch(url);
       const data = await response.json();
       if (!data) {
-        navigate("/SEARCH")
+        navigate("/Search")
       }
       if (!currentUser || currentUser.role !== "OWNER") {
-        alert("Register as an owner to submit the request")
-        navigate("/SEARCH")
+        navigate("/Search")
+        return;
       }
       setBrew(data);
-      setClaim({...claim, brewery_ref: brew.id})
-      console.log(claim)
     };
+
+    const update = async () => {
+      if (currentUser) {
+        setClaim({...claim, owner: currentUser._id})
+        const claims = await client.findPendingClaims(currentUser._id);
+        if (claims.length > 0) {
+          alert("You have a pending request, resubmit when it's completed")
+          navigate("/Search")
+          return;
+        }
+      }
+    }
     fetchBrewery();
+    update();
   }, [detailId]);
 
   return(
     <div className="container-fluid">
+
       <div className="card bg-secondary text-white" style={{ height: '100px' }}>
         <div className="card-body">
           <h3 className="card-title">{brew.name}</h3>

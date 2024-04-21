@@ -75,9 +75,10 @@ export default function Profile() {
     try {
       const user = await client.updateUser(profile._id, profile);
       dispatch(setCurrentUser(user));
-      setComplete("Profile successfully updated.")
       setError("");
+      setComplete("Profile successfully updated.")
     } catch (err: any) {
+      setComplete("");
       setError(err.response.data.message)
     }
   };
@@ -89,13 +90,15 @@ export default function Profile() {
         const user = await client.updateUser(profile._id, updated);
         dispatch(setCurrentUser(user));
         setProfile(updated);
-        setComplete("User successfully upgraded.")
         setError("");
+        setComplete("User successfully upgraded.")
         setIsOwner(true);
       } else {
+        setComplete("");
         setError("Please select your payment.")
       }
     } catch (err: any) {
+      setComplete("");
       setError(err.response.data.message)
     }
   };
@@ -114,6 +117,12 @@ export default function Profile() {
       {isAdmin && 
         <Link to="/User/Admin/Users" className="btn bg-warning-subtle w-100 mb-2">
           Users
+        </Link>
+      }
+
+      {isOwner && 
+        <Link to="/User/Owner/Claims" className="btn bg-warning-subtle w-100 mb-2">
+          Owner's Claim request
         </Link>
       }
 
@@ -176,12 +185,25 @@ export default function Profile() {
                 value={formatDate(profile.dob)}
                 onChange={onChangeDate}
             />
-            <label htmlFor="userRole" className="form-label mt-2">User Type: </label>
-            <select className="form-select mb-2" id="userRole" value={profile.role} 
-              onChange={(e) => setProfile({...profile, role: e.target.value})}>
-              <option value="USER">User</option>
-              <option value="OWNER">BREWERY OWNER</option>
-            </select>
+
+            {!isAdmin && 
+            <>
+              <label htmlFor="userRole" className="form-label mt-2">User Type: </label>
+              <select className="form-select mb-2" id="userRole" value={profile.role} 
+                onChange={(e) => setProfile({...profile, role: e.target.value})}>
+                <option value="USER">User</option>
+                <option value="OWNER">BREWERY OWNER</option>
+              </select>
+            </>
+            }
+
+            {
+              isAdmin && 
+              <>
+              <label htmlFor="userRole2" className="form-label mt-2">User Type: </label>
+              <input className="form-control" value="Admin" disabled/>
+              </>
+            }
 
             <button onClick={updateUser} className="btn bg-primary-subtle form-control mt-3">
               Save

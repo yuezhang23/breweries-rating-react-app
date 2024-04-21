@@ -2,6 +2,7 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 
 export const BASE_API = process.env.REACT_APP_API_BASE;
+export const USER_API = `${BASE_API}/api/user`;
 export const USERS_API = `${BASE_API}/api/users`;
 
 export interface User { _id: string; username: string; password: string; role: string; email: string;
@@ -13,22 +14,22 @@ export const createUser = async (user: any) => {
 };
 
 export const signin = async (credentials: User) => {
-  const response = await axios.post( `${USERS_API}/signin`, credentials );
+  const response = await axios.post( `${USER_API}/signin`, credentials );
   return response.data;
 };
 
 export const profile = async () => {
-  const response = await axios.post(`${USERS_API}/profile`);
+  const response = await axios.post(`${USER_API}/profile`);
   return response.data;
 };
 
 export const updateUser = async (userId: any, user: any) => {
-  const response = await axios.put(`${USERS_API}/update/${userId}`, user);
+  const response = await axios.put(`${USERS_API}/${userId}`, user);
   return response.data;
 };
 
 export const adminUpdateUser = async (userId: any, user: any) => {
-  const response = await axios.put(`${USERS_API}/update/admin/${userId}`, user);
+  const response = await axios.put(`${USERS_API}/${userId}/admin`, user);
   return response.data;
 };
 
@@ -44,7 +45,7 @@ export const findAllUsers = async () => {
 };
 
 export const findUserById = async (userId: any) => {
-  const response = await axios.get(`${USERS_API}/find/${userId}`);
+  const response = await axios.get(`${USERS_API}/${userId}`);
   return response.data;
 };
 
@@ -54,11 +55,11 @@ export const findUsersByRole = async (role: any) => {
 };
 
 export const signup = async (user: any) => {
-  const response = await axios.post(`${USERS_API}/signup`, user);
+  const response = await axios.post(`${USER_API}/signup`, user);
   return response.data;
 };
 
 export const signout = async () => {
-  const response = await axios.post(`${USERS_API}/signout`);
+  const response = await axios.post(`${USER_API}/signout`);
   return response.data;
 };
