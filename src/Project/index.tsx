@@ -36,7 +36,7 @@ function Project() {
                       <Route path="User/Profile/:profileId" element={<PublicProfile />} />
                       <Route path="User/Profile/:profileId/follows" element={<FollowDetails />} />
                       <Route path="User/Admin/Users" element={<UserTable />} />
-                      <Route path="Details/:detailId/claim" element={<OwnerClaim />} /> 
+                      {/* <Route path="Details/:detailId/claim" element={<OwnerClaim />} />  */}
                   </Routes>
               </div>
           </div>

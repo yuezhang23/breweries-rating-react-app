@@ -23,7 +23,12 @@ export const profile = async () => {
 };
 
 export const updateUser = async (userId: any, user: any) => {
-  const response = await axios.put(`${USERS_API}/updates/${userId}`, user);
+  const response = await axios.put(`${USERS_API}/update/${userId}`, user);
+  return response.data;
+};
+
+export const adminUpdateUser = async (userId: any, user: any) => {
+  const response = await axios.put(`${USERS_API}/update/admin/${userId}`, user);
   return response.data;
 };
 

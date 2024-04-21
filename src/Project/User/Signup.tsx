@@ -31,7 +31,6 @@ export default function Signup() {
         return;
       }
       const newUser = await client.signup(user);
-      setCurrentUser(newUser);
       navigate("/User/Signin");
     } catch (err: any) {
       setError(err.response.data.message);
