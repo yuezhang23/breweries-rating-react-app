@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux";
 import { ProjectState } from "../store";
 
-function Home() {
+function userHome() {
   
   return (
     <div className="container-fluid">
@@ -10,5 +10,5 @@ function Home() {
   );
 }
 
-export default Home;
+export default userHome;
   
