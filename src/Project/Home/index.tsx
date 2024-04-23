@@ -108,15 +108,18 @@ function Home() {
     }
   }
 
+  // not done !!!!!!
   const findNeighbors = () => {
-
+    
   }
+
+  // not done !!!!!!
   const findAllStores = () => {
 
   }
 
   const ownerPage = async () => {
-    if (currentUser && currentUser.role === "OWNER" && page == 0) {
+    if (currentUser && currentUser.role === "OWNER") {
       try {
         const ownerCls = await admin.findBrewForOwner(currentUser);
         const owner_br = ownerCls.find((m : any) => m.completed == true && m.approved == true)
