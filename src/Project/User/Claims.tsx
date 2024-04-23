@@ -71,6 +71,7 @@ export default function Claims() {
   };
 
   useEffect(() => { 
+    fetchProfile();
     fetchClaims(); 
     pendingRequest();
   }, []);

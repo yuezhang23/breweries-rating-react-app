@@ -123,9 +123,16 @@ function Home() {
     if (currentUser && currentUser.role === "OWNER") {
       try {
         const ownerCls = await admin.findBrewForOwner(currentUser);
-        const owner_br = ownerCls.find((m : any) => m.completed == true && m.approved == true)
-        const ownerBr = await admin.findBrewById(owner_br.brewery_ref)
-        setLimits([{...ownerBr, name: `${ownerBr.name} -- Owner`}, ...brews])
+        console.log(ownerCls)
+        const ownerBr = ownerCls.filter((brewery: any) => brewery.completed && brewery.approved);
+        console.log(ownerBr)        
+        if (ownerBr.length > 0) { 
+          const updatedBreweries = ownerBr.map((brewery: any) => ({
+            ...brewery,
+            name: `${brewery.brewery_name} -- Owner`  
+                    }));
+          setLimits([... updatedBreweries, ...brews]) }
+        
       } catch (error: any) {
         console.error(error.response.data);
       }

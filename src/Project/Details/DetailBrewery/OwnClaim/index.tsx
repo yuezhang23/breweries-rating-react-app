@@ -1,17 +1,34 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ProjectState } from "../../../store";
 import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import * as client from "./claimClient";
+import * as userClient from "../../../User/client";
+import { setCurrentUser } from "../../../User/reducer";
 
 export default function OwnerClaim() {
 
   const { detailId } = useParams();
   const { currentUser } = useSelector((state: ProjectState) => state.userReducer);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [error, setError] = useState("");
   const [brew, setBrew] = useState({id: "", name: "", website_url: ""});
   const [claim, setClaim] = useState({owner: "", brewery_ref: detailId, brewery_name: "", legalName: "", additional: "", completed: false, approved: false});
+
+  const fetchProfile = async() => {
+    try {
+    const account = await userClient.profile();
+    const user = await userClient.findUserById(account._id);
+    dispatch(setCurrentUser(user))
+    if (!user || user.role !== "OWNER") {
+      alert("Not authorized to see this page")
+      navigate("/User/Profile")
+    }
+  } catch (err) {
+    navigate("/User/Profile")
+  }
+  }
 
   const submit = async () => {
     try {
@@ -48,6 +65,7 @@ export default function OwnerClaim() {
         }
       }
     }
+    fetchProfile();
     fetchBrewery();
     update();
   }, [detailId]);
