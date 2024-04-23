@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { ProjectState } from '../store';
 import * as client from "../User/client";
 import axios from "axios";
+import { Link } from 'react-router-dom';
 axios.defaults.withCredentials = true;
 
 
@@ -144,47 +145,47 @@ function Home() {
     <>
     <div className='d-flex mx-4'>
       <div className='col text-start text-primary my-3 fs-4' > Today's Top <strong className='text-danger'>Likes</strong></div>
-        <div className="col p-3 ">
-          <div className='d-flex justify-content-end'>
-            <input placeholder="search brewery name...." defaultValue={brew.name}
-                className="border rounded-4 p-2 me-3"
-                onChange={(e) => searchBrew(e.target.value)}/>   
-            <button onClick={() => ownerPage()}
-              className={currentUser && currentUser.role === "OWNER"? "btn btn-primary form-control me-2" : "d-none"}
-              type="button">My Brewery </button>
-            <button onClick={() => findNeighbors()}
-              className={currentUser && currentUser.role === "OWNER"? "btn btn-info form-control me-2 " : "d-none"}
-              type="button">Neighborhood </button>
-            <button onClick={() => findAllStores()}
-              className={currentUser && currentUser.role === "OWNER"? "btn btn-warning form-control  me-2 " : "d-none"}
-              type="button">Stores </button> 
-            <button 
-              className={currentUser && currentUser.role === "ADMIN"? "btn btn-secondary me-2 " : "d-none"}
-              type="button">Settings </button>
-            <button className="dropdown btn btn-success me-2 dropdown-toggle" type="button"
-                    id="dd" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Views 
-            </button>
-            <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a className="dropdown-item btn" onClick={() => getLikeBrews(10)}>Top 10 Likes</a>
-                <a className="dropdown-item btn" onClick={() => getFollowBrews(10)}>Top 10 Followers</a>
-                <a className="dropdown-item btn" onClick={() => getRandomBrews(10)}>Random 10</a>
-            </div>
+      <div className="col p-3 ">
+        <div className='d-flex justify-content-end'>
+          <input placeholder="search brewery name...." defaultValue={brew.name}
+              className="border rounded-4 p-2 me-3"
+              onChange={(e) => searchBrew(e.target.value)}/>   
+          <button onClick={() => ownerPage()}
+            className={currentUser && currentUser.role === "OWNER"? "btn btn-primary form-control me-2" : "d-none"}
+            type="button">My Brewery </button>
+          <button onClick={() => findNeighbors()}
+            className={currentUser && currentUser.role === "OWNER"? "btn btn-info form-control me-2 " : "d-none"}
+            type="button">Neighborhood </button>
+          <button onClick={() => findAllStores()}
+            className={currentUser && currentUser.role === "OWNER"? "btn btn-warning form-control  me-2 " : "d-none"}
+            type="button">Stores </button> 
+          <button 
+            className={currentUser && currentUser.role === "ADMIN"? "btn btn-secondary me-2 " : "d-none"}
+            type="button">Settings </button>
+          <button className="dropdown btn btn-success me-2 dropdown-toggle" type="button"
+                  id="dd" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Views 
+          </button>
+          <div className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <a className="dropdown-item btn" onClick={() => getLikeBrews(10)}>Top 10 Likes</a>
+              <a className="dropdown-item btn" onClick={() => getFollowBrews(10)}>Top 10 Followers</a>
+              <a className="dropdown-item btn" onClick={() => getRandomBrews(10)}>Random 10</a>
           </div>
-            <div className='d-flex justify-content-end mt-2'>
-              <button onClick={() => setPage(page -1)}
-                className={limitedBrews.length >= 0 && page > 0?"btn btn-outline-secondary me-2 ": "d-none"}  type="button"
-              > {"<< Prev"} </button>
-              <button onClick={() => setPage(page +1)}
-              className={limitedBrews.length > 0 && page >= 0?"btn btn-outline-secondary me-2 ": "d-none"} type="button"
-              > {"Next >>"}       
-              </button>
-              <button onClick={() => setPage(0)}
-              className={limitedBrews.length === 0 || page === -1?"btn btn-outline-secondary ": "d-none"} type="button"
-              > {">> Front"}          
-              </button>
-            </div>
         </div>
+          <div className='d-flex justify-content-end mt-2'>
+            <button onClick={() => setPage(page -1)}
+              className={limitedBrews.length >= 0 && page > 0?"btn btn-outline-secondary me-2 ": "d-none"}  type="button"
+            > {"<< Prev"} </button>
+            <button onClick={() => setPage(page +1)}
+            className={limitedBrews.length > 0 && page >= 0?"btn btn-outline-secondary me-2 ": "d-none"} type="button"
+            > {"Next >>"}       
+            </button>
+            <button onClick={() => setPage(0)}
+            className={limitedBrews.length === 0 || page === -1?"btn btn-outline-secondary ": "d-none"} type="button"
+            > {">> Front"}          
+            </button>
+          </div>
+      </div>
     </div>   
 
     <div className='d-flex mx-4'>
@@ -268,7 +269,7 @@ function Home() {
                   if(usr) {
                     return (
                       <span className='py-2 text-warning me-2 p-2'><FaSmile/> {cm.comments} 
-                      <span className='text-danger'> @ {usr.username}</span></span>
+                      <Link className='text-danger text-decoration-none' to = {`../User/Profile/${usr._id}`}> @ {usr.username}</Link></span>
                     );}})   
                     }       
             </li>))
