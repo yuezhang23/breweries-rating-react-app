@@ -34,18 +34,18 @@ function Nav() {
                   </Link>
               </li>
               {!currentUser && (
-                  <>
-                    <li className="nav-item" key={3}>
-                        <Link className={`nav-link ${pathname.includes("Signin") && "active fw-bold"}`} to={"/User/Signin"}>
-                            Signin
-                        </Link>
-                    </li>
-                    <li className="nav-item" key={4}>
-                        <Link className={`nav-link ${pathname.includes("Signup") && "active fw-bold"}`} to={"/User/Signup"}>
-                            Signup
-                        </Link>
-                    </li>
-                  </>
+                <>
+                  <li className="nav-item" key={3}>
+                      <Link className={`nav-link ${pathname.includes("Signin") && "active fw-bold"}`} to={"/User/Signin"}>
+                          Signin
+                      </Link>
+                  </li>
+                  <li className="nav-item" key={4}>
+                      <Link className={`nav-link ${pathname.includes("Signup") && "active fw-bold"}`} to={"/User/Signup"}>
+                          Signup
+                      </Link>
+                  </li>
+                </>
               )}
 
               {currentUser && (
@@ -53,11 +53,6 @@ function Nav() {
                   <li className="nav-item" key={5}>
                     <Link className={`nav-link ${pathname.includes("Profile") && "active fw-bold"}`} to={"/User/Profile"}>
                         Profile
-                    </Link>
-                  </li>
-                  <li className="nav-item" key={6}>
-                    <Link className={`nav-link ${pathname.includes("Orderhistory") && "active fw-bold"}`} to={"/User/Orderhistory"}>
-                        Order History
                     </Link>
                   </li>
                 </>

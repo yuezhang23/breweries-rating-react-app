@@ -19,13 +19,6 @@ function Details() {
     longitude: null
   });
 
-  const renderMap = () => {
-    if ((brew.latitude) && (brew.latitude)) {
-      return <GoogleComponent center={{ lat: brew.latitude, lng: brew.longitude }}/>
-    }
-  }
-
-
   const fetchBrew = async () => {
     try {
       const brewery = await service.randomBreweryFromAPI();
@@ -34,9 +27,6 @@ function Details() {
         latitude: parseFloat(brewery.latitude),
         longitude: parseFloat(brewery.longitude)
       });
-      console.log(brewery.latitude)
-      console.log(brewery.longitude)
-
     } catch (error: any) {
       console.error(error.response.data);
     }
@@ -49,7 +39,7 @@ function Details() {
   return (
     <div className="container-fluid">
       <div className="ms-2">
-        <h1>Explore A Random Brewery</h1>
+        <h2>Explore A Random Brewery</h2>
       </div>
 
       <div className="row">
@@ -68,7 +58,10 @@ function Details() {
         </div>
 
         <div className="col-md-6">
-          {renderMap()}
+          {(!brew.latitude || !brew.longitude) ?  
+            <>No Map Info</> :
+            <GoogleComponent center={{ lat: brew.latitude, lng: brew.longitude }}/> 
+          }
         </div>
       </div>
     </div>

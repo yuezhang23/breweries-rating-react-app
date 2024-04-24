@@ -8,8 +8,8 @@ const adminCode = "ADMIN";
 
 export default function Signup() {
   const [error, setError] = useState("");
-  const [isPremium, setIsPremium] = useState("");
   const [isAdmin, setIsAdmin] = useState("");
+  const [isOwner, setIsOwner] = useState("");
   const [pmt, setPmt] = useState("");
   const [code, setCode] = useState("");
   const [user, setUser] = useState({ username: "", password: "", firstName: "", lastName: "", email: "", dob: "", role: "USER"});
@@ -17,21 +17,20 @@ export default function Signup() {
 
   const signup = async () => {
     try {
-      if (user.role === "PREMIUM_USER" && !pmt) {
-        setError("Select a valid payment type.")
+      if (user.role === "OWNER" && !pmt) {
+        setError("Select a valid payment.")
         setUser({...user, role: "USER"})
-        setIsPremium("");
+        setIsOwner("");
         setIsAdmin("");
         return;
       } else if (user.role === "ADMIN" && code!== adminCode) {
         setError("Enter a valid admin code to register as an admin.");
-        setIsPremium("");
         setIsAdmin("");
+        setIsOwner("");
         setUser({...user, role: "USER"})
         return;
       }
       const newUser = await client.signup(user);
-      setCurrentUser(newUser);
       navigate("/User/Signin");
     } catch (err: any) {
       setError(err.response.data.message);
@@ -39,15 +38,15 @@ export default function Signup() {
   };
 
   const confirmRole = (r: string) => {
-    if (r === "PREMIUM_USER") {
+    if (r === "OWNER") {
       setIsAdmin("");
-      setIsPremium("Please set up your payment to upgrade as a premium user:");
+      setIsOwner("Please set up your payment to upgrade as a owner user:");
     } else if (r === "ADMIN") {
-      setIsPremium("");
       setIsAdmin("Please Enter code to register as an Admin:");
+      setIsOwner("");
     } else {
-      setIsPremium("");
       setIsAdmin("");
+      setIsOwner("");
     }
     setUser({...user, role: r}) 
   }
@@ -114,16 +113,16 @@ export default function Signup() {
             <select className="form-select mb-2" id="userRole" value={user.role} onChange={(e) =>
                 {confirmRole(e.target.value)}}>
               <option value="USER">User</option>
-              <option value="PREMIUM_USER">Premium User</option>
+              <option value="OWNER">BREWERY OWNER</option>
               <option value="ADMIN">Admin</option>
             </select>
           </div>
 
           <div className="mb-3">
-            {isPremium && 
+          {isOwner && 
             <>
-              <div className="alert alert-warning my-1">{isPremium}</div>
-              <label htmlFor="patron" className="form-label">Become a Patron(Payment info): </label>
+              <div className="alert alert-warning my-1">{isOwner}</div>
+              <label htmlFor="patron" className="form-label">Become a Patron to be a brewery owner user(Payment info): </label>
               <select className="form-select mb-2" id="patron" value={pmt} onChange={(e) =>
                 setPmt(e.target.value)}>
                 <option value="">Select a Payment Method</option>
