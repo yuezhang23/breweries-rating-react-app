@@ -10,7 +10,7 @@ const containerStyle = {
 function GoogleComponent({ center }) {
   const { isLoaded } = useJsApiLoader({
     id: 'google-map-script',
-    googleMapsApiKey: API_KEY //change to string to work
+    googleMapsApiKey: "AIzaSyAdBLMSF2Y2mZ5myRIAFcJ90prTAx8cgUg"
   })
 
   const [zoom, setZoom] = useState(14);

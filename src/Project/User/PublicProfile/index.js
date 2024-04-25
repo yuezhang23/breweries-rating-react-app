@@ -256,7 +256,7 @@ export default function PublicProfile() {
             </h2>
             <div id="collapseOne" className="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
               <div className="accordion-body">
-                <ul style={{"list-style-type": "none"}}>
+                <ul>
                   {favoriteBeers.length > 0 ? favoriteBeers.map((beer, index) => (
                     <li key={index}>
                       <FontAwesomeIcon icon={faBeer} className="me-2" />
