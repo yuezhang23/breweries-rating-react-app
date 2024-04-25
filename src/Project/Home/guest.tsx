@@ -151,7 +151,7 @@ function GuestHome() {
   
     const checkComment = (id : any) => {
       if (!currentUser) {
-        navigate(`/User/Profile`)
+        navigate(`/User/Profile/${id}`)
       } else {
         navigate(`/User/Profile/${id}`)
       }
