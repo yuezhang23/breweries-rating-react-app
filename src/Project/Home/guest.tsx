@@ -244,7 +244,7 @@ function GuestHome() {
                     <div className='row d-flex flex-grow-1'>
                     <div 
                         className={br.name.includes('Owner')? "col-3 text-primary text-danger flex-fill fs-5" : "col-3 text-primary fs-5"} >
-                        <FaEarlybirds/> Brewery  <br></br>{br.name} 
+                        <FaEarlybirds/> Brewery  <br></br><Link to = {`${br.website_url}`} className='text-decoration-none' >{br.name}</Link> 
                     </div>
                     <div className='col-1 text-success d-none d-md-block'>
                         Type : {br.brewery_type}
