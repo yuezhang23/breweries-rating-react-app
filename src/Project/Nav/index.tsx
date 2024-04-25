@@ -1,3 +1,4 @@
+
 import { Link, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { ProjectState } from "../store";
@@ -19,7 +20,7 @@ function Nav() {
         <div className="collapse navbar-collapse justify-content-between bg-light" id="navbarTogglerTarget">
             <ul className="navbar-nav me-3 mb-2 mb-lg-0">
               <li className="nav-item" key={0}>
-                  <Link className={`nav-link ${pathname.includes("Home") && "active fw-bold"}`} to={"/Home"}>
+                  <Link className={`nav-link ${pathname.includes("Home") && "active fw-bold"}`} to={currentUser ? "/Home/User" : "/Home"}>
                       Home
                   </Link>
               </li>

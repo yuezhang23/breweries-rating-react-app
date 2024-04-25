@@ -1,3 +1,4 @@
+
 import { Routes, Route } from 'react-router';
 import { Navigate } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -17,7 +18,7 @@ import FollowDetails from './User/Follows/FollowDetails';
 import OwnerClaim from './Details/DetailBrewery/OwnClaim';
 import Claims from './User/Claims';
 import Reviews from './User/Reviews';
-import OwnerDetailBrewery from './Details/DetailBrewery/OwnerOps';
+import UsrHome from './Home/user';
 
 function Project() {
 
@@ -29,11 +30,10 @@ function Project() {
               <div className='flex-grow-1 mt-5 pt-5' >
                   <Routes>
                       <Route path="/" element={<Navigate to="Home" />} />
-                      <Route path="Home" element={<Home />} />
+                      <Route path="Home/*" element={<Home />} />
                       <Route path="Search" element={<Search />} />
                       <Route path="Details" element={<Details />} />
                       <Route path="Details/:detailId" element={<DetailBrewery />} />
-                      <Route path="Details/Owner/:detailId" element={<OwnerDetailBrewery />} />
                       <Route path="User/Signin" element={<Signin />} />
                       <Route path="User/Signup" element={<Signup />} />
                       <Route path="User/Profile" element={<Profile />} />
