@@ -2,11 +2,12 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 
 export const BASE_API = process.env.REACT_APP_API_BASE;
+export const BEER_API = `${BASE_API}/api/beers`;
 export const USER_API = `${BASE_API}/api/user`;
 export const USERS_API = `${BASE_API}/api/users`;
 
 export interface User { _id: string; username: string; password: string; role: string; email: string;
-firstName: string, lastName: string, registerDate?: Date, dob?: Date };
+firstName: string, lastName: string, registerDate?: Date, dob?: Date, description?: String };
 
 export const createUser = async (user: any) => {
   const response = await axios.post(`${USERS_API}`, user);

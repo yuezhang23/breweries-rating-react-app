@@ -139,6 +139,11 @@ export default function Profile() {
               {isOwner && <FaRegStar className="text-warning ms-2 mb-1" />}
             </h4>
             {currentUser && <FollowComponent id={currentUser._id}/>}
+            {!isAdmin &&
+            <Link to={`/User/Profile/${profile._id}`} className="btn bg-primary-subtle mt-2 float-end">
+              Edit your public profile page
+            </Link>
+            }
           </div>
           <div className="card-body">
             {error && <div className="alert alert-danger my-1">{error}</div>}
