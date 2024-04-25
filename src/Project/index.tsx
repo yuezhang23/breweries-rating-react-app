@@ -17,6 +17,7 @@ import PublicProfile from './User/PublicProfile';
 import FollowDetails from './User/Follows/FollowDetails';
 import OwnerClaim from './Details/DetailBrewery/OwnClaim';
 import Claims from './User/Claims';
+import OwnerDetailBrewery from './Details/DetailBrewery/OwnerOps';
 import Reviews from './User/Reviews';
 import UsrHome from './Home/user';
 
@@ -34,6 +35,9 @@ function Project() {
                       <Route path="Search" element={<Search />} />
                       <Route path="Details" element={<Details />} />
                       <Route path="Details/:detailId" element={<DetailBrewery />} />
+
+                      <Route path="Details/Owner/:detailId" element={<OwnerDetailBrewery />} />
+                      
                       <Route path="User/Signin" element={<Signin />} />
                       <Route path="User/Signup" element={<Signup />} />
                       <Route path="User/Profile" element={<Profile />} />
