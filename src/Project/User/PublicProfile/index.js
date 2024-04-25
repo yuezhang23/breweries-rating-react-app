@@ -8,8 +8,6 @@ import * as client from "../client"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBeer } from '@fortawesome/free-solid-svg-icons';
 export const BASE_API = process.env.REACT_APP_API_BASE;
-import axios from "axios";
-axios.defaults.withCredentials = true;
 
 export default function PublicProfile() {
   const { profileId } = useParams();
