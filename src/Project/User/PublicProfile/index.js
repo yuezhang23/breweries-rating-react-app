@@ -7,7 +7,9 @@ import * as fClient from "../Follows/followClient";
 import * as client from "../client"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBeer } from '@fortawesome/free-solid-svg-icons';
+import axios from "axios";
 export const BASE_API = process.env.REACT_APP_API_BASE;
+axios.defaults.withCredentials = true;
 
 export default function PublicProfile() {
   const { profileId } = useParams();
