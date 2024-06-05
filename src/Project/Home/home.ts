@@ -10,11 +10,13 @@ export const createBrew = async (brew: any) => {
     return response.data;
 };
 
+
 //insert many
 export const createBrews = async (brews: any[]) => {
     const response = await axios.post(`${ADMIN_API}/breweries/many`, brews);
     return response.data;
 };
+
 
 export const updateBrew = async (brewId: any, brew: any) => {
     const response = await axios.put(`${ADMIN_API}/breweries/${brewId}`, brew);
@@ -83,6 +85,7 @@ export const findBrewForOwner = async (usr : any) => {
     return response.data;
 };
 
+
 export const findAllProvedCls = async () => {
     const response = await axios.get(`${BASE_API}/api/claims`);
     return response.data;
@@ -93,6 +96,7 @@ export const findUserFromFollowers = async (brId : any, userId: String) => {
     const response = await axios.get(`${ADMIN_API}/breweries/${brId}/follow/${userId}`);
     return response.data;
 };
+
 
 export const findUserFromLikers = async (brId : any, userId: String) => {
     const response = await axios.get(`${ADMIN_API}/breweries/${brId}/like/${userId}`);

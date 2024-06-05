@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import * as client from "../User/client";
-import { useNavigate, useParams} from 'react-router';
+import { useNavigate} from 'react-router';
 import * as common from './home';
 import { useSelector } from 'react-redux';
 import { ProjectState } from '../store';
@@ -64,7 +64,7 @@ function UsrHome() {
 
 
   return (
-    <div className='mt-3' >
+    <>
       <div className='px-5 fs-4 mb-4' > 
         Welcome  <strong className='text-danger'> @ {  currentUser && currentUser.username }</strong>
         <Link to = {`/Home/User`}
@@ -80,13 +80,13 @@ function UsrHome() {
                   <div 
                     className= "col text-primary" >
                       <strong className='fs-5'> <FaEarlybirds/> Brewery :  </strong>  <br></br>
-                      <strong className='fs-5 text-danger'>  {br.name}   </strong> 
+                      {/* <strong className='fs-5 text-danger'>  {br.name}   </strong>  */}
+                     <Link to = {`${br.website_url}`} >  <strong className='text-danger'>{br.name}</strong> </Link>
                      
                   </div>
-                  <div className='col text-primary d-none d-md-block'>
+                  {/* <div className='col text-primary d-none d-md-block'>
                   <strong className='fs-5'> Website  </strong> <br></br>
-                     <Link to = {`${br.website_url}`} > {br.website_url || 'None'}</Link>
-                  </div>
+                  </div> */}
                   {/* <div className='col'>
                       {br.beer_types && br.beer_types.map((cm : any) => <li className='ms-4'> <strong>{cm }</strong> </li>)} 
                       {! br.beer_types && 'None'}
@@ -96,11 +96,11 @@ function UsrHome() {
                     Contact
                   </strong>  <br></br>
                   <strong>Tel :</strong>  {br.phone || "null"}<br></br>
-                      {br.address && Object.entries(br.address).map(([key, value]) => (
+                      {/* {br.address && Object.entries(br.address).map(([key, value]) => (
                         <div key={key}>
                           <strong>{key}:</strong> {value as React.ReactNode}
                         </div>
-                      ))}
+                      ))} */}
 
                   </div>
                   <div  className='col text-primary'>
@@ -154,7 +154,7 @@ function UsrHome() {
               ----------- No Result -----------</span>
       </ul>
        
-    </div>
+    </>
 
   );
 }
