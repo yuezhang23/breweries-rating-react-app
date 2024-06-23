@@ -69,7 +69,8 @@ export const findBrewsUserCared = async (userId: String) => {
     const response1 = await axios.get(`${ADMIN_API}/breweries/reviews/${userId}`);
     const response2 = await axios.get(`${ADMIN_API}/breweries/likersID/${userId}`);
     const response3 = await axios.get(`${ADMIN_API}/breweries/followersID/${userId}`);
-    const allBrewsICared = [...response1.data, ...response2.data, ...response3.data]
+    // render changes, bad user experience
+    const allBrewsICared = [...response3.data, ...response1.data, ...response2.data]
     const brewsICared = Array.from(new Set(allBrewsICared));
     return brewsICared;
 };

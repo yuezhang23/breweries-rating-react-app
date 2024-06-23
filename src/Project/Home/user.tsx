@@ -1,19 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import * as client from "../User/client";
+import * as admin from './home';
 import { useNavigate} from 'react-router';
 import * as common from './home';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import {setBrews } from '../Home/brewReducer'
 import { ProjectState } from '../store';
 import axios from "axios";
 import { FaEarlybirds, FaSmile } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
+import { FaHeart, FaPeopleArrows } from 'react-icons/fa6';
 axios.defaults.withCredentials = true;
 
 function UsrHome() {
-  const [brews, setBrews] = useState<any[]>([]);
+  const [carebrews, setCareBrews] = useState<any[]>([]);
   const {currentUser} = useSelector((state: ProjectState) => state.userReducer)
+  const {currentBrews} = useSelector((state: ProjectState) => state.brewReducer)
   const [users, setUsers] = useState<any[]>([]);
   const navigate = useNavigate()
+  const dispatch = useDispatch();
+  const [doneLike, SetLike] = useState(false);
+  const [doneFollow, SetFollow] = useState(false);
+
 
   const searchBrewsUserCared = async () =>{
     if (!currentUser) {
@@ -24,7 +32,7 @@ function UsrHome() {
     if (brewsFromUser.length === 0) {
       alert('you have never liked/followed/commented on any brewery')
     } else {
-      setBrews(brewsFromUser)
+      setCareBrews(brewsFromUser)
     }
   }
 
@@ -37,11 +45,31 @@ function UsrHome() {
     }
   };
 
+
+  const unLikes = async (brew : any) =>{
+    // keep click button bug
+    if (!doneLike) {
+      const newBrew = {...brew, likeCount : brew.likeCount - 1, likers : brew.likers.filter((i :any) => i._id != currentUser._id)};
+      const newBrews = currentBrews.map((i)=> i._id === brew._id? newBrew : i);
+      admin.updateBrew(brew._id, newBrew).then((status) => dispatch(setBrews(newBrews)));
+      SetLike(!doneLike);
+    }
+  };
+  
+  const unFollowers = async (brew : any) =>{
+    if (!doneFollow) {
+      const newBrew = {...brew, followers : brew.followers.filter((i :any) => i._id != currentUser._id), followCount : brew.followCount - 1};
+      const newBrews = currentBrews.map((i)=> i._id === brew._id? newBrew : i);
+      admin.updateBrew(brew._id, newBrew).then((status) => dispatch(setBrews(newBrews)));
+      SetFollow(!doneFollow);
+    }
+  };
+
   
   useEffect(() => {
     searchBrewsUserCared()
     fetchUsers()
-  }, [currentUser]);
+  }, [currentUser, currentBrews]);
 
 
   const checkComment = (id : any) => {
@@ -72,16 +100,25 @@ function UsrHome() {
       </div>
       <div className='px-5 fs-4 mb-3' > Breweries You ever <strong className='text-danger'>Liked/Followed/Commented</strong></div>
       <ul className="list-group d-flex flex-grow-1 ps-5"> 
-          {brews && brews.map((br: any) => 
-          ( 
+          {carebrews && carebrews.map((br: any) => 
+           ( 
             <li 
-              className="list-group-item " >
+              className= "list-group-item " >
                 <div className='row'>
                   <div 
-                    className= "col text-primary" >
+                    className= "col-3 text-primary" >
                       <strong className='fs-5'> <FaEarlybirds/> Brewery :  </strong>  <br></br>
                       {/* <strong className='fs-5 text-danger'>  {br.name}   </strong>  */}
-                     <Link to = {`${br.website_url}`} >  <strong className='text-danger'>{br.name}</strong> </Link>
+                     <Link to = {`${br.website_url}`}  className='text-decoration-none'>  <strong className='text-primary'>{br.name}</strong> </Link>
+                     <p></p>
+                     <button onClick={() => unLikes(br)}
+                        className= "mb-2 btn btn-sm btn-outline-primary bg-primary-subtle text-danger rounded-5">
+                            <FaHeart/> Unlike
+                      </button> <br></br>
+                      <button onClick={() => unFollowers(br)}
+                      className= "btn btn-sm btn-outline-primary bg-primary-subtle text-danger rounded-5">
+                          <FaPeopleArrows/> Unfollow 
+                      </button>
                      
                   </div>
                   {/* <div className='col text-primary d-none d-md-block'>
@@ -150,7 +187,7 @@ function UsrHome() {
                 </div>            
             </li>))
             }  
-            <span className={ brews.length == 0 ? "text-danger m-5" : "d-none"}>
+            <span className={carebrews.length == 0 ? "text-danger m-5" : "d-none"}>
               ----------- No Result -----------</span>
       </ul>
        

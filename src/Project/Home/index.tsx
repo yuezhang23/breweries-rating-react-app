@@ -64,6 +64,7 @@ function Home() {
   }
   
   
+  
   const greetings = async () => {
     if (!currentUser) {
       toast.info(
