@@ -82,6 +82,7 @@ function GuestHome() {
       const newBrews = currentBrews.map((i:any)=> i._id === brew._id? newBrew : i);
       admin.updateBrew(brew._id, newBrew).then((status) => dispatch(setBrews(newBrews)));
       setCurrent(" ")
+      setReview({userId : "", comments: ""})
     }
   
     const getLikeBrews = (num : Number) => {
@@ -218,14 +219,20 @@ function GuestHome() {
                         className={br.name.includes('Owner')? "col-3 text-primary text-danger flex-fill" : "col-3 text-primary"} >
                         <FaEarlybirds/> <strong>Brewery</strong>  <br></br><Link to = {`${br.website_url}`} className='text-decoration-none' > <strong>{br.name}</strong></Link> 
                     </div>
-                    <div className='col text-success d-none d-md-block'>
+                    <div className={br.name.includes('Owner')? 'col' : 'd-none'}>
+                          <Link to = {`/Details/Owner/${br.id}`}
+                          className="btn btn-outline-primary bg-info-subtle rounded-4">
+                              Manage Details
+                          </Link>
+                    </div>
+                    <div className={br.name.includes('Owner')? "d-none" : 'col text-success d-none d-md-block'} >
                     <strong>Type</strong> {br.brewery_type}
                     </div>
-                    <div className='col-2 text-success d-none d-md-block'>
+                    <div className={br.name.includes('Owner')? "d-none" : 'col text-success d-none d-md-block'} >
                         <strong>Serving</strong><br></br>
                         {br.beer_types && br.beer_types.map((cm : any) => <li className='ms-4'> {cm} </li>)} 
                     </div>
-                    <div className='col-4 text-success d-none d-sm-block'>
+                    <div className={br.name.includes('Owner')? "d-none" : 'col-4 text-success d-none d-sm-block'} >
                         {/* <ul className='d-none d-sm-block text-decoration-none'> */}
                           <strong>Tel : </strong>{br.phone}<br></br><strong>Address : </strong><br></br>
                         {br.address && Object.entries(br.address).map(([key, value]) => (
@@ -235,7 +242,7 @@ function GuestHome() {
                         ))}
                         {/* </ul> */}
                     </div>
-                    <div className='col-2 flex-fill'>
+                    <div className='col-2 float-end'>
                             <button onClick={() => updateLikes(br)}
                               className= "mb-2 btn btn-sm btn-outline-danger bg-danger-subtle text-danger rounded-5 form-control">
                                   <FaHeart/> like : {br.likeCount} 
@@ -243,27 +250,23 @@ function GuestHome() {
                             <button onClick={() => updateFollowers(br)}
                             className= "btn btn-sm btn-outline-primary bg-primary-subtle text-primary rounded-5 form-control">
                                 <FaPeopleArrows/> follow : {br.followCount}
-                            </button>
+                            </button> <br></br>
 
                             <button onClick={() => setCurrent(br._id)}
-                            className={currentUser && !br.name.includes('Owner')? "btn btn-sm rounded-5 btn-outline-secondary bg-secondary-subtle float-end my-2" : "d-none"}>
+                            className={currentUser && !br.name.includes('Owner')? "mt-2 btn btn-sm btn-outline-success bg-success-subtle text-success rounded-5 form-control" : "d-none"}>
                                 <FaComment/> Comment
                             </button>
 
-                            <Link to = {`/Details/Owner/${br.id}`}
-                            className={br.name.includes('Owner')? "btn btn-sm btn-outline-primary bg-info-subtle rounded-4 float-end my-2" : "d-none"}>
-                                Manage Details
-                            </Link>
                             <textarea placeholder='add comments....' value={review.comments} 
-                            className={br._id == currentID? "border form-control" : "d-none"}
+                            className={br._id == currentID? "border float-end my-2" : "d-none"}
                             onChange={(e) => setReview({userId : currentUser._id, comments: e.target.value})}
                             />
                             <button onClick={() => setCurrent(" ")}
-                            className={br._id == currentID? "btn btn-sm bg-danger-subtle float-end my-2 ms-2" : "d-none"}>
+                            className={br._id == currentID? "btn btn-sm bg-danger-subtle float-end my-2 ms-2 rounded-5" : "d-none"}>
                                 Cancel
                             </button>
                             <button onClick={() => updateReviews(br, review)}
-                              className={br._id == currentID? "btn btn-sm bg-success-subtle float-end my-2" : "d-none"}>
+                              className={br._id == currentID? "btn btn-sm bg-success-subtle float-end my-2 rounded-5" : "d-none"}>
                                   Submit
                             </button>
                     </div>   
