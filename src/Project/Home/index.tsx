@@ -103,7 +103,7 @@ function Home() {
   return (
     <div className='d-flex mx-2'>
       <div className='col-3 d-none d-lg-block'>
-        <button className='btn bg-light-subtle btn-sm' onClick={() => setDone(!done)}> Switch </button>
+        <button className='btn bg-success-subtle text-primary btn-sm' onClick={() => setDone(!done)}> <strong>SWITCH</strong> </button>
         <span className='text-middle'>
         <ToastContainer  autoClose={1000} position="top-center" hideProgressBar={true} closeButton={false}
         toastStyle={{color: '#FF7F50', whiteSpace:'nowrap', width: '500px'}}/>
